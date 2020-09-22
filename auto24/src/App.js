@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import SearchAppBar from "./pages/components/app-bar/Search-bar";
+import BackToTop from "./pages/components/app-bar/BackToTop";
+import StickyFooter from "./pages/components/footer/StickyFooter";
+import Container from "@material-ui/core/Container";
+import CarsTimeline from "./pages/components/timeline/CarsTimeline";
+import MediaCard from "./pages/components/cards/MediaCards";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div>
+            <SearchAppBar/>
+            <Container>
+                <CarsTimeline/>
+                <MediaCard/>
+            </Container>
+            <BackToTop/>
+            <StickyFooter/>
+        </div>
+    );
 }
-
 export default App;
