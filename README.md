@@ -2,7 +2,7 @@
 
 ## Members
 
-Hans Leit
+Hans Leit <br />
 Robin-Kevin Koppa
 
 ### `npm start`
