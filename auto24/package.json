@@ -11,6 +11,8 @@
     "@testing-library/user-event": "^7.2.1",
     "clsx": "^1.1.1",
     "istanbul-lib-coverage": "^3.0.0",
+    "lodash": "^4.17.20",
+    "material-ui": "^0.20.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -37,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-tap-event-plugin": "^3.0.3"
   }
 }
