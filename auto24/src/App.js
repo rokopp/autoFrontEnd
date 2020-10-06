@@ -3,9 +3,6 @@ import './App.css';
 import SearchAppBar from "./pages/components/app-bar/Search-bar";
 import BackToTop from "./pages/components/app-bar/BackToTop";
 import StickyFooter from "./pages/components/footer/StickyFooter";
-import Container from "@material-ui/core/Container";
-import CarsTimeline from "./pages/components/timeline/CarsTimeline";
-import MediaCard from "./pages/components/cards/MediaCards";
 import {Grid} from "@material-ui/core";
 import Content from "./pages/components/contents/Content";
 
@@ -16,8 +13,10 @@ function App() {
                 <Grid item>
                     <SearchAppBar/>
                 </Grid>
-                <Grid item container>
-
+                <Grid item>
+                    <img src={"https://insidechange.org/wp-content/uploads/2019/01/car-sales-hand-shake.jpg.wrend_.640.360.jpeg"}/>
+                </Grid>
+                <Grid item container style={{paddingTop: "10%"}}>
                     <Grid item xs={0} sm={2}/>
                     <Grid item xs={12} sm={8}>
                         <Content/>
