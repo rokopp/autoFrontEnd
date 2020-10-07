@@ -14,7 +14,7 @@ function App() {
                     <SearchAppBar/>
                 </Grid>
                 <Grid item>
-                    <img src={"https://insidechange.org/wp-content/uploads/2019/01/car-sales-hand-shake.jpg.wrend_.640.360.jpeg"}/>
+                    <img height="100%" width="100%" src={"https://insidechange.org/wp-content/uploads/2019/01/car-sales-hand-shake.jpg.wrend_.640.360.jpeg"}/>
                 </Grid>
                 <Grid item container style={{paddingTop: "10%"}}>
                     <Grid item xs={0} sm={2}/>

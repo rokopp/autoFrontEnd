@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 
 const MediaCard = (props) => {
     const classes = useStyles();
-    const { avatarSrc, userName, price, description, imgSrc, carMark, carModel} = props;
+    const { avatarSrc, userName, price, description, pictureDto, carMark, carModel} = props;
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -33,13 +33,13 @@ const MediaCard = (props) => {
                 }
                 title={userName}
             />
-            <CardMedia style={{height: "150px"}} image={imgSrc}/>
+            <CardMedia style={{height: "150px"}} image={pictureDto}/>
             <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                     {carMark} {carModel}
                 </Typography>
                 <Typography gutterBottom variant="h6" component="h2">
-                    {price}
+                    {price} eur
                 </Typography>
                 <Typography variant="body2" color="textSecondary" component="p">
                     {description}
