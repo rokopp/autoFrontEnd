@@ -5,6 +5,8 @@ import BackToTop from "./pages/components/app-bar/BackToTop";
 import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
 import Content from "./pages/components/contents/Content";
+import CarSalesList from "./pages/components/contents/carSalesList";
+
 
 function App() {
     return (
@@ -19,7 +21,7 @@ function App() {
                 <Grid item container style={{paddingTop: "10%"}}>
                     <Grid item xs={0} sm={2}/>
                     <Grid item xs={12} sm={8}>
-                        <Content/>
+                        <CarSalesList/>
                     </Grid>
                     <Grid item xs={0} sm={2}/>
                 </Grid>
