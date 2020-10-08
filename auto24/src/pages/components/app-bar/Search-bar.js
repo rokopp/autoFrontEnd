@@ -155,7 +155,7 @@ function TemporaryDrawer() {
                         aria-label="open drawer"
                     >
                         <MenuIcon onClick={toggleDrawer(anchor, true)}/>
-                        </IconButton>
+                    </IconButton>
 
                     <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
                         {list(anchor)}

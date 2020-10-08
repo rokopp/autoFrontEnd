@@ -6,29 +6,45 @@ import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
 import Content from "./pages/components/contents/Content";
 import CarSalesList from "./pages/components/contents/carSalesList";
+import LoginPage from "./pages/components/login/LoginPage";
+import axios from 'axios';
+import {RegisterPage} from "./pages/components/login/RegisterPage";
 
+export default class App extends React.Component {
+/*
+    checkLogInStatus() {
+        axios.get("http//localhost:8080/api/login", { withCredentials: true })
+            .then(response => console.log("logged in?", response))
+            .catch(error => console.log("check login error", error))
+    }
 
-function App() {
-    return (
-        <div>
-            <Grid container direction={"column"}>
-                <Grid item>
-                    <SearchAppBar/>
-                </Grid>
-                <Grid item>
-                    <img height="100%" width="100%" src={"https://insidechange.org/wp-content/uploads/2019/01/car-sales-hand-shake.jpg.wrend_.640.360.jpeg"}/>
-                </Grid>
-                <Grid item container style={{paddingTop: "10%"}}>
-                    <Grid item xs={0} sm={2}/>
-                    <Grid item xs={12} sm={8}>
-                        <CarSalesList/>
+    componentDidMount() {
+        this.checkLogInStatus();
+    }
+*/
+    render() {
+        return (
+            <div>
+                <Grid container direction={"column"}>
+                    <Grid item>
+                        <SearchAppBar/>
                     </Grid>
-                    <Grid item xs={0} sm={2}/>
+                    <Grid item>
+                        <img height="100%" width="100%"
+                             src={"https://insidechange.org/wp-content/uploads/2019/01/car-sales-hand-shake.jpg.wrend_.640.360.jpeg"}/>
+                    </Grid>
+                    <Grid item container style={{paddingTop: "10%"}}>
+                        <Grid item xs={0} sm={2}/>
+                        <Grid item xs={12} sm={8}>
+                            <CarSalesList/>
+                        </Grid>
+                        <Grid item xs={0} sm={2}/>
+                    </Grid>
+                    <RegisterPage/>
                 </Grid>
-            </Grid>
-            <BackToTop/>
-            <StickyFooter/>
-        </div>
-    );
+                <BackToTop/>
+                <StickyFooter/>
+            </div>
+        );
+    }
 }
-export default App;
