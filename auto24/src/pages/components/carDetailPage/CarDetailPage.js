@@ -1,13 +1,16 @@
 import React from "react";
 
 
+export class CarDetailPage extends React.Component {
+    constructor() {
+        super();
+    }
 
-const CarDetailPage = () => {
-
-
-    return (
-        <div>CarDetailPage</div>
-    );
+    render() {
+        return (
+            <div>
+                Car Detail Page
+            </div>
+        )
+    }
 }
-
-export default CarDetailPage;

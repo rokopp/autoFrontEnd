@@ -4,7 +4,6 @@ import SearchAppBar from "./pages/components/app-bar/Search-bar";
 import BackToTop from "./pages/components/app-bar/BackToTop";
 import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
-import Content from "./pages/components/contents/Content";
 import CarSalesList from "./pages/components/contents/carSalesList";
 import LoginPage from "./pages/components/login/LoginPage";
 import axios from 'axios';
@@ -40,6 +39,7 @@ export default class App extends React.Component {
                         </Grid>
                         <Grid item xs={0} sm={2}/>
                     </Grid>
+                    <LoginPage/>
                     <RegisterPage/>
                 </Grid>
                 <BackToTop/>
