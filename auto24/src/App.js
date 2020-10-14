@@ -9,6 +9,7 @@ import LoginPage from "./pages/components/login/LoginPage";
 import axios from 'axios';
 import {RegisterPage} from "./pages/components/login/RegisterPage";
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import Routing from "./pages/components/routing/Routing";
 
 
 export default class App extends React.Component {
@@ -26,8 +27,6 @@ export default class App extends React.Component {
     render() {
         return (
             <div>
-
-
                 <Grid container direction={"column"}>
                     <Grid item>
                         <SearchAppBar/>
@@ -40,13 +39,7 @@ export default class App extends React.Component {
                     <Grid item container style={{paddingTop: "10%"}}>
                         <Grid item xs={0} sm={2}/>
                         <Grid item xs={12} sm={8}>
-
-                            <Switch>
-                                <Route path="/" component={CarSalesList} exact />
-                                <Route path="/login" component={LoginPage} />
-                                <Route path="/register" component={RegisterPage} />
-                                <Route component={Error} />
-                            </Switch>
+                            <Routing/>
                         </Grid>
                         <Grid item xs={0} sm={2}/>
                     </Grid>

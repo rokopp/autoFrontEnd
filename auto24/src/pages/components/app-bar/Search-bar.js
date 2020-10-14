@@ -21,6 +21,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import ScrollToColor from "./ScrollToColor";
+import { Link } from "react-router-dom";
+
 
 
 
@@ -132,8 +134,8 @@ function TemporaryDrawer() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {['Kuulutused', 'Blogi', 'Kontakt'].map((text, index) => (
-                    <ListItem button key={text}>
+                {['Login', 'Registreeri', 'Kontakt'].map((text, index) => (
+                    <ListItem button component={Link} to={"/" + text} key={text}>
                         <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                         <ListItemText primary={text} />
                     </ListItem>
