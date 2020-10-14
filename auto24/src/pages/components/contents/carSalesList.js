@@ -8,42 +8,36 @@ export default class CarSalesList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            carID: '',
-            carPrice: '',
-            carMarkListID: '',
-            carMarkListCarMark: '',
-            carImg: ''
+            carsList: []
         }
     }
 
-    componentDidMount() {
-        axios.get(`https://34763323-f29b-4650-9431-f9015f329184.mock.pstmn.io/car`)
+    componentDidMount(){
+        axios.get('https://db8ddf1b-ac50-4227-8b9d-3addfcafe81d.mock.pstmn.io/adsCar')
             .then(response => {
-                this.setState({ carID: response.data.id });
-                this.setState({carPrice: response.data.price});
-                this.setState({carMarkListID: response.data.carMark.id});
-                this.setState({carMarkListCarMark: response.data.carMark.carMark});
-                this.setState({carImg: response.data.pictureDto});
-
+                this.setState({carsList: response.data})
             })
             .catch(error => {
-                console.log(error);
+                console.log(error)
             });
     }
 
+
     render() {
-        const { carList, carID, carPrice, carMarkListID, carMarkListCarMark, carImg } = this.state;
+
+        const { carsList } = this.state;
 
         return (
+
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={4}>
-                    <MediaCard
-                        carID={carID}
-                        price={carPrice}
-                        carMark={carMarkListCarMark}
-                        pictureDto={carImg}
-                    />
-                </Grid>
+                    {carsList.map(function (item, index) {
+                        return <Grid item xs={12} sm={4}><MediaCard
+                            carID={item.id}
+                            price={item.price}
+                            carMark={item.carMark.carMark}
+                            pictureDto={item.pictureDto}
+                        /></Grid>
+                    })}
             </Grid>
         );
     }

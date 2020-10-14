@@ -6,6 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import {Avatar, IconButton, CardMedia, CardActions, Button} from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
 import CardHeader from "@material-ui/core/CardHeader";
+import {Link} from "react-router-dom";
+import {CarDetailPage} from "../carDetailPage/CarDetailPage";
+import { generatePath } from "react-router";
+
 
 const useStyles = makeStyles({
     root: {
@@ -19,7 +23,8 @@ const useStyles = makeStyles({
 
 const MediaCard = (props) => {
     const classes = useStyles();
-    const { avatarSrc, userName, price, description, pictureDto, carMark, carModel} = props;
+    const { avatarSrc, userName, price, description, pictureDto, carMark, carModel, carID} = props;
+
     return (
         <Card className={classes.root}>
             <CardHeader
@@ -46,8 +51,8 @@ const MediaCard = (props) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Osta</Button>
-                <Button size="small">Uuri lähemalt</Button>
+                <Button component={Link} to={"/" + "buyNow"} size="small">Osta</Button>
+                <Button component={Link} to={"/carAds/" + carID} size="small">Uuri lähemalt</Button>
             </CardActions>
         </Card>
     );
