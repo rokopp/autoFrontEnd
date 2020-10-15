@@ -13,6 +13,7 @@
     "clsx": "^1.1.1",
     "istanbul-lib-coverage": "^3.0.0",
     "lodash": "^4.17.20",
+    "material-auto-rotating-carousel": "^3.0.2",
     "material-ui": "^0.20.2",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",

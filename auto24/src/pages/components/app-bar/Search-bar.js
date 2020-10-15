@@ -181,7 +181,7 @@ export default function SearchAppBar(props) {
                     <Toolbar>
                         <TemporaryDrawer/>
                         <Typography className={classes.title} variant="h6" noWrap>
-                            <Button to="/" component={Link}>RIP-OFF Auto24</Button>
+                            <IconButton to="/" component={Link}>RIP-OFF Auto24</IconButton>
                         </Typography>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>

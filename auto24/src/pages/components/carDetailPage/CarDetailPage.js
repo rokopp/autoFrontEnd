@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
-import MediaCard from "../cards/MediaCards";
 import {Grid} from "@material-ui/core";
+import {CarDetailCard} from "./CarDetailCard";
 
 
 
@@ -24,6 +24,8 @@ export class CarDetailPage extends React.Component {
     }
 
     render() {
+        const { red, blue, green } = require('@material-ui/core/colors');
+        const Button = require('@material-ui/core/Button').default;
 
         const { carsList } = this.state;
         const checkID = this.props.match.params.carID;
@@ -32,12 +34,13 @@ export class CarDetailPage extends React.Component {
                 {carsList.map(function (item, index) {
                     if (item.id.toString() === checkID) {
                         return <Grid item xs={22} sm={14}>
-                            <MediaCard
+                            <CarDetailCard
                                 carID={item.id}
                                 price={item.price}
                                 carMark={item.carMark.carMark}
                                 pictureDto={item.pictureDto}
                             />
+
                         </Grid>;
                     }
                 })}

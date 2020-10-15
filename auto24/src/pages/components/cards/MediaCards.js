@@ -7,8 +7,6 @@ import {Avatar, IconButton, CardMedia, CardActions, Button} from "@material-ui/c
 import ShareIcon from "@material-ui/icons/Share";
 import CardHeader from "@material-ui/core/CardHeader";
 import {Link} from "react-router-dom";
-import {CarDetailPage} from "../carDetailPage/CarDetailPage";
-import { generatePath } from "react-router";
 
 
 const useStyles = makeStyles({
