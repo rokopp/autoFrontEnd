@@ -8,7 +8,12 @@ export default class SaveAds extends React.Component {
             userName: "",
             uploadFile: null,
             ad: {
-                name: "",
+                carMark: {
+                    carMark: ""
+                },
+                description: "",
+                price: 0,
+                carSerialNr: ""
             }
         }
         this.handleChange = this.handleChange.bind(this);
