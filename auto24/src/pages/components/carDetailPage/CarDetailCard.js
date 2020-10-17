@@ -14,7 +14,7 @@ const boxStyle = {
 export class CarDetailCard extends Component {
 
     render() {
-        const { userName, price, description, pictureDto, carMark, carModel, carID} = this.props;
+        const { userName, price, description, pictureDto, carMark, carModel} = this.props;
 
         return (
             <div>
@@ -35,12 +35,16 @@ export class CarDetailCard extends Component {
                         <Typography gutterBottom variant="h9" component="h2">
                             Kirjeldus: {description}
                         </Typography>
+                        <Divider/>
+                        <Typography gutterBottom variant="h9" component="h2">
+                            Müüja: {userName}
+                        </Typography>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <Box>
                             <Box {...boxStyle} borderRight={0}>
-                            <img width="100%" height="100%" src={pictureDto}/>
+                            <img alt="" width="100%" height="100%" src={pictureDto}/>
                             </Box>
                         </Box>
                     </Grid>

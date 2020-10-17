@@ -22,7 +22,7 @@ export class RegisterPage extends React.Component {
     }
 
     handleSubmit(event) {
-        const {username, password, email, phoneNumber, loggedIn} = this.state;
+        const {username, password, email, phoneNumber} = this.state;
         event.preventDefault();
         fetch('http://localhost:8080/api/register', {
             method: 'POST',

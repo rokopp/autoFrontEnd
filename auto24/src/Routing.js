@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Switch} from "react-router-dom";
-import CarSalesList from "./pages/components/contents/carSalesList";
+import CarSalesList from "./pages/components/contents/CarSalesList";
 import LoginPage from "./pages/components/login/LoginPage";
 import {RegisterPage} from "./pages/components/login/RegisterPage";
 import {CarDetailPage} from "./pages/components/carDetailPage/CarDetailPage";

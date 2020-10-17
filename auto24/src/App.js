@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import SearchAppBar from "./pages/components/app-bar/Search-bar";
+import Navbar from "./pages/components/app-bar/Navbar";
 import BackToTop from "./pages/components/app-bar/BackToTop";
 import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
@@ -24,10 +24,10 @@ export default class App extends React.Component {
             <div>
                 <Grid container direction={"column"}>
                     <Grid item>
-                        <SearchAppBar/>
+                        <Navbar/>
                     </Grid>
                     <Grid item>
-                        <img height="100%" width="100%"
+                        <img alt="" height="100%" width="100%"
                              src={"https://insidechange.org/wp-content/uploads/2019/01/car-sales-hand-shake.jpg.wrend_.640.360.jpeg"}/>
                     </Grid>
 

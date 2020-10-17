@@ -38,9 +38,6 @@ export default class SaveAds extends React.Component {
         data.append('userName', JSON.stringify(username));
         data.append('ad', JSON.stringify(ad));
 
-        console.log(data.get('file'));
-        console.log(data.get('userName'));
-        console.log(data.get('ad'));
         fetch('http://localhost:8080/api/ads', {
             method: 'POST',
             headers: {
@@ -89,7 +86,6 @@ export default class SaveAds extends React.Component {
                                         </Grid>
                                         <Grid item>
                                             <TextField
-
                                                 type="file"
                                                 name="file"
                                                 placeholder="file"
