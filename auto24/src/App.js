@@ -4,12 +4,7 @@ import SearchAppBar from "./pages/components/app-bar/Search-bar";
 import BackToTop from "./pages/components/app-bar/BackToTop";
 import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
-import CarSalesList from "./pages/components/contents/carSalesList";
-import LoginPage from "./pages/components/login/LoginPage";
-import axios from 'axios';
-import {RegisterPage} from "./pages/components/login/RegisterPage";
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Routing from "./pages/components/routing/Routing";
+import Routing from "./Routing";
 
 
 export default class App extends React.Component {

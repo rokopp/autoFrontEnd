@@ -11,11 +11,15 @@ export default class CarSalesList extends React.Component {
             carsList: []
         }
     }
-
     componentDidMount(){
-        axios.get('https://db8ddf1b-ac50-4227-8b9d-3addfcafe81d.mock.pstmn.io/adsCar')
+        fetch('http://localhost:8080/api/ads',
+            {
+                method: 'GET'
+            })
+            .then(res => res.json())
             .then(response => {
-                this.setState({carsList: response.data})
+                console.log(response)
+                this.setState({carsList: response})
             })
             .catch(error => {
                 console.log(error)

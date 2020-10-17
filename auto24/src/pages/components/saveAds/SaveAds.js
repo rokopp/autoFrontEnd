@@ -1,18 +1,19 @@
 import React from 'react';
+import {Grid, TextField, Button} from "@material-ui/core";
 
-import {Grid, Typography, TextField, Button} from "@material-ui/core";
-
-export default class LoginPage extends React.Component {
-    constructor(props) {
-        super(props);
+export default class SaveAds extends React.Component {
+    constructor() {
+        super();
         this.state = {
-            username: "",
-            password: "",
-            loggedIn: false,
-        };
-
+            userName: "",
+            uploadFile: null,
+            ad: {
+                name: "",
+            }
+        }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.uploadFileChange = this.uploadFileChange.bind(this);
     }
 
     handleChange(event) {
@@ -21,40 +22,48 @@ export default class LoginPage extends React.Component {
         })
     }
 
+    uploadFileChange(event) {
+        this.setState({
+            uploadFile: event.target.files[0],
+            loaded: 0
+        })
+    }
+
     handleSubmit(event) {
+        const {username, uploadFile, ad} = this.state;
         event.preventDefault();
 
-        const {username, password } = this.state;
-        fetch('http://localhost:8080/api/login', {
+        const data = new FormData()
+        data.append('file', uploadFile);
+        data.append('userName', JSON.stringify(username));
+        data.append('ad', JSON.stringify(ad));
+
+        console.log(data.get('file'));
+        console.log(data.get('userName'));
+        console.log(data.get('ad'));
+        fetch('http://localhost:8080/api/ads', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                userName: username,
-                password: password,
-            },),
-            //credentials: 'include'
+            body: (data)
         })
-            .then(res => res.text())
-            .then(response => {
-                console.log(response);
-                if (response === 'success') {
-                    this.setState({
-                        loggedIn: true
-                    })
-                }
+
+            .then((response) => response.text())
+            .then((responseData) => {
+                console.log("RESULTS HERE:", responseData);
             })
-            .catch(error => {
-                console.log(error);
+            .catch((error) => {
+                console.error(error);
             });
     }
+
+
 
     render() {
         return (
             <div>
-                { !this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
+                <Grid container spacing={0} justify="center" direction="row">
                     <Grid item>
                         <Grid
                             container
@@ -63,11 +72,6 @@ export default class LoginPage extends React.Component {
                             spacing={2}
                             className="login-form"
                         >
-                            <Grid item>
-                                <Typography component="h1" variant="h5">
-                                    Logi sisse
-                                </Typography>
-                            </Grid>
                             <Grid item>
                                 <form onSubmit={this.handleSubmit}>
                                     <Grid container direction="column" spacing={2}>
@@ -80,20 +84,33 @@ export default class LoginPage extends React.Component {
                                                 variant="outlined"
                                                 value={this.state.username}
                                                 onChange={this.handleChange}
-                                                required
                                                 autoFocus
                                             />
                                         </Grid>
                                         <Grid item>
                                             <TextField
-                                                type="password"
-                                                placeholder="Password"
-                                                fullWidth
-                                                name="password"
-                                                variant="outlined"
-                                                value={this.state.password}
-                                                onChange={this.handleChange}
+
+                                                type="file"
+                                                name="file"
+                                                placeholder="file"
+                                                value={this.state.file}
+                                                onChange={this.uploadFileChange}
                                                 required
+                                                fullWidth
+                                                variant="outlined"
+                                                autoFocus
+                                            />
+                                        </Grid>
+
+                                        <Grid item>
+                                            <TextField
+                                                type="text"
+                                                placeholder="ad"
+                                                fullWidth
+                                                name="ad"
+                                                variant="outlined"
+                                                onChange={this.handleChange}
+                                                value={this.state.ad.name}
                                             />
                                         </Grid>
                                         <Grid item>
@@ -103,7 +120,7 @@ export default class LoginPage extends React.Component {
                                                 type="submit"
                                                 className="button-block"
                                             >
-                                                Logi sisse
+                                                Salvesta kuulutus
                                             </Button>
                                         </Grid>
                                     </Grid>
@@ -111,7 +128,7 @@ export default class LoginPage extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid> : <h2>Sisse logitud</h2>}
+                </Grid>
             </div>
         );
     }

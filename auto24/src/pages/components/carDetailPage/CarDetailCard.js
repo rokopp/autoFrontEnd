@@ -12,9 +12,6 @@ const boxStyle = {
     },
 }
 export class CarDetailCard extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render() {
         const { userName, price, description, pictureDto, carMark, carModel, carID} = this.props;

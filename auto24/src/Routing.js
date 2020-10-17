@@ -1,22 +1,22 @@
-/*
 import React from 'react';
-import { Route } from "react-router-dom";
-import { withRouter } from 'react-router-dom';
-import Home from './Pages/Home/Home'
-import Projects from './Pages/Projects/Projects'
-//import Layout from './Layout/Layout';
-export const HomeRoute = "/";
-export const ProjectsRoute = "/projects/";
-class Routing extends React.Component {
+import {Route, Switch} from "react-router-dom";
+import CarSalesList from "./pages/components/contents/carSalesList";
+import LoginPage from "./pages/components/login/LoginPage";
+import {RegisterPage} from "./pages/components/login/RegisterPage";
+import {CarDetailPage} from "./pages/components/carDetailPage/CarDetailPage";
+import SaveAds from "./pages/components/saveAds/SaveAds";
+
+export default class Routing extends React.Component {
     render() {
         return (
-            <Layout>
-                <Route path={HomeRoute} exact component={Home} />
-                <Route path={ProjectsRoute} component={Projects} />
-            </Layout >
+            <Switch>
+                <Route path="/" component={CarSalesList} exact />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/registreeri" component={RegisterPage} />
+                <Route path="/carAds/:carID" component={CarDetailPage} />
+                <Route path="/saveAds" component={SaveAds} />
+                <Route component={Error} />
+            </Switch>
         );
     }
 }
-export default withRouter(Routing);
-
- */
