@@ -9,7 +9,7 @@ export class RegisterPage extends React.Component {
             password: "",
             email: "",
             phoneNumber: "",
-            responseAccount: false
+            loggedIn: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -22,7 +22,7 @@ export class RegisterPage extends React.Component {
     }
 
     handleSubmit(event) {
-        const {username, password, email, phoneNumber, responseAccount} = this.state;
+        const {username, password, email, phoneNumber, loggedIn} = this.state;
         event.preventDefault();
         fetch('http://localhost:8080/api/register', {
             method: 'POST',
@@ -36,14 +36,14 @@ export class RegisterPage extends React.Component {
                 email: email,
                 phoneNumber: phoneNumber
             }),
-            credentials: 'include'
+            //credentials: 'include'
         })
 
             .then((response) => response.text())
             .then((responseData) => {
                 console.log("RESULTS HERE:", responseData);
                 if (responseData === 'success') {
-                    this.setState({responseAccount: true});
+                    this.setState({loggedIn: true});
                 }
             })
             .catch((error) => {
@@ -55,7 +55,8 @@ export class RegisterPage extends React.Component {
     render() {
         return (
         <div>
-            <Grid container spacing={0} justify="center" direction="row">
+
+            { !this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
                 <Grid item>
                     <Grid
                         container
@@ -138,8 +139,7 @@ export class RegisterPage extends React.Component {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
-            {this.state.responseAccount ? <h2>Logged In</h2> : <h2>Something went wrong</h2>}
+            </Grid> : <h2>Logged In</h2>}
         </div>
         );
     };
