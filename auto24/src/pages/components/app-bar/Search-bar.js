@@ -125,6 +125,21 @@ function TemporaryDrawer() {
         setState({ ...state, [anchor]: open });
     };
 
+    const navbarLinks = [
+        {
+            name: "Logi sisse",
+            link: "login"
+        },
+        {
+            name: "Registreeri",
+            link: "registreeri"
+        },
+        {
+            name: "Loo kuulutus",
+            link: "uus"
+        }
+    ];
+
     const list = (anchor) => (
         <div
             className={clsx(classes.list, {
@@ -135,10 +150,9 @@ function TemporaryDrawer() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {['Login', 'Registreeri', 'Kontakt'].map((text, index) => (
-                    <ListItem button component={Link} to={"/" + text} key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
+                {navbarLinks.map((text, index) => (
+                    <ListItem button component={Link} to={"/" + text.link} key={text.name}>
+                        <ListItemText primary={text.name} />
                     </ListItem>
                 ))}
             </List>

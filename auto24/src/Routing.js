@@ -14,7 +14,7 @@ export default class Routing extends React.Component {
                 <Route path="/login" component={LoginPage} />
                 <Route path="/registreeri" component={RegisterPage} />
                 <Route path="/carAds/:carID" component={CarDetailPage} />
-                <Route path="/saveAds" component={SaveAds} />
+                <Route path="/uus" component={SaveAds} />
                 <Route component={Error} />
             </Switch>
         );
