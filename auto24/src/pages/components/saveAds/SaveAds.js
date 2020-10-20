@@ -5,25 +5,37 @@ export default class SaveAds extends React.Component {
     constructor() {
         super();
         this.state = {
-            userName: "Bob",
+            userName: "",
             uploadFile: null,
             ad: {
                 carMark: {
-                    carMark: "Audi"
+                    carMark: ""
                 },
-                description: "asd",
+                description: "",
                 price: 0,
-                carSerialNr: "kka5k"
+                carSerialNr: ""
             }
         }
         this.handleChange = this.handleChange.bind(this);
+        this.handleAdChange = this.handleAdChange.bind(this);
+        this.handleCarMarkChange = this.handleCarMarkChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.uploadFileChange = this.uploadFileChange.bind(this);
     }
 
+    handleCarMarkChange(event) {
+        this.setState({
+            ad: {...this.state.ad, carMark: {...this.state.ad.carMark, [event.target.name]: event.target.value}}
+        })
+    }
+
+    handleAdChange(event) {
+        this.setState({
+            ad: {...this.state.ad, [event.target.name]: event.target.value}
+        })
+    }
 
     handleChange(event) {
-        console.log(event.target.name);
         this.setState({
             [event.target.name]: event.target.value,
         })
@@ -88,6 +100,7 @@ export default class SaveAds extends React.Component {
                                                 variant="outlined"
                                                 value={this.state.username}
                                                 onChange={this.handleChange}
+                                                required
                                                 autoFocus
                                             />
                                         </Grid>
@@ -111,9 +124,10 @@ export default class SaveAds extends React.Component {
                                                 fullWidth
                                                 name="carMark"
                                                 variant="outlined"
-                                                onChange={this.handleChange}
-                                                value={this.state.ad.carMark}
+                                                onChange={this.handleCarMarkChange}
+                                                value={this.state.carMark}
                                                 inputProps={{ maxLength: 12 }}
+                                                required
                                                 autoFocus
                                             />
                                         </Grid>
@@ -124,22 +138,24 @@ export default class SaveAds extends React.Component {
                                                 fullWidth
                                                 name="description"
                                                 variant="outlined"
-                                                onChange={this.handleChange}
+                                                onChange={this.handleAdChange}
                                                 value={this.state.description}
                                                 inputProps={{ maxLength: 255 }}
+                                                required
                                                 autoFocus
                                             />
                                         </Grid>
                                         <Grid item>
                                             <TextField
-                                                type="text"
+                                                type="number"
                                                 placeholder="Hind"
                                                 fullWidth
                                                 name="price"
                                                 variant="outlined"
-                                                onChange={this.handleChange}
+                                                onChange={this.handleAdChange}
                                                 value={this.state.price}
                                                 inputProps={{ maxLength: 7 }}
+                                                required
                                                 autoFocus
                                             />
                                         </Grid>
@@ -150,9 +166,10 @@ export default class SaveAds extends React.Component {
                                                 fullWidth
                                                 name="carSerialNr"
                                                 variant="outlined"
-                                                onChange={this.handleChange}
+                                                onChange={this.handleAdChange}
                                                 value={this.state.carSerialNr}
                                                 inputProps={{ maxLength: 6 }}
+                                                required
                                                 autoFocus
                                             />
                                         </Grid>

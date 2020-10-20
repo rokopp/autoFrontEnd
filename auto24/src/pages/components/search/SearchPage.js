@@ -8,6 +8,10 @@ import DialogContent from "@material-ui/core/DialogContent";
 import SearchIcon from '@material-ui/icons/Search';
 import DialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 
 export default class SearchPage extends React.Component {
@@ -16,11 +20,20 @@ export default class SearchPage extends React.Component {
         super(props);
         this.state = {
             carsList: [],
-            setOpen: false
+            setOpen: false,
+            searchingFor: false
         }
         this.handleClickOpen = this.handleClickOpen.bind(this)
         this.handleClose = this.handleClose.bind(this)
+        this.handleChange = this.handleChange.bind(this)
 
+    }
+    handleChange(event) {
+        if (event.target.value === "price") {
+            this.setState(
+                {searchingFor: !this.state.searchingFor}
+            )
+        }
     }
 
     handleClickOpen() {
@@ -54,7 +67,7 @@ export default class SearchPage extends React.Component {
 
 
     render() {
-        const { carsList, setOpen } = this.state
+        const { carsList, setOpen, searchingFor } = this.state
         return (
                 <div>
                     <IconButton aria-label="search" color="inherit" onClick={this.handleClickOpen}>
@@ -63,11 +76,25 @@ export default class SearchPage extends React.Component {
                     <Dialog open={setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Otsing</DialogTitle>
                         <DialogContent>
+                            <div>
+                                <FormControl>
+                                    <InputLabel id="filter" >Filter</InputLabel>
+                                    <Select
+                                        id="filter"
+                                        onChange={this.handleChange}
+                                    >
+                                        <MenuItem value="price">Hind</MenuItem>
+                                        <MenuItem value="carMark">Automark</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
                             <div style={{ width: 300 }}>
                                 <Autocomplete
                                     id="search"
                                     freeSolo
-                                    options={carsList.map((item) => item.carMark.carMark)}
+                                    options={carsList.map((item) => {
+                                        return searchingFor ? item.carMark.carMark : item.price
+                                    })}
                                     renderInput={(params) => (
                                         <TextField {...params} label="Otsing" margin="normal" variant="outlined" />
                                     )}
