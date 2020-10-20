@@ -15,6 +15,7 @@ import PullDownDrawer from "./PullDownDrawer";
 import ScrollToColor from "./ScrollToColor";
 import { Link } from "react-router-dom";
 import {useStyles} from "./NavbarUseStyles"
+import SearchPage from "../search/SearchPage";
 
 function HideOnScroll(props) {
     const { children, window } = props;
@@ -45,18 +46,8 @@ export default function Navbar(props) {
                         <Typography className={classes.title} variant="h6" noWrap>
                             <IconButton to="/" component={Link}>RIP-OFF Auto24</IconButton>
                         </Typography>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon/>
-                            </div>
-                            <InputBase
-                                placeholder="Otsing…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                                inputProps={{'aria-label': 'search'}}
-                            />
+                        <div>
+                            <SearchPage/>
                         </div>
                     </Toolbar>
                 </AppBar>
