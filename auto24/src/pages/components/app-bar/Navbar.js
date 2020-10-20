@@ -7,7 +7,6 @@ import { AppBar,
     useScrollTrigger,
     Slide} from '@material-ui/core';
 
-import SearchIcon from '@material-ui/icons/Search';
 import PropTypes from "prop-types";
 import PullDownDrawer from "./PullDownDrawer";
 
