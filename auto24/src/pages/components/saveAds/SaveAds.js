@@ -5,15 +5,15 @@ export default class SaveAds extends React.Component {
     constructor() {
         super();
         this.state = {
-            userName: "",
+            userName: "Bob",
             uploadFile: null,
             ad: {
                 carMark: {
-                    carMark: ""
+                    carMark: "Audi"
                 },
-                description: "",
+                description: "asd",
                 price: 0,
-                carSerialNr: ""
+                carSerialNr: "kka5k"
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -21,7 +21,9 @@ export default class SaveAds extends React.Component {
         this.uploadFileChange = this.uploadFileChange.bind(this);
     }
 
+
     handleChange(event) {
+        console.log(event.target.name);
         this.setState({
             [event.target.name]: event.target.value,
         })
@@ -40,9 +42,9 @@ export default class SaveAds extends React.Component {
 
         const data = new FormData()
         data.append('file', uploadFile);
-        data.append('userName', JSON.stringify(username));
+        data.append('userName', username);
         data.append('ad', JSON.stringify(ad));
-
+        console.log(JSON.stringify(ad));
         fetch('http://localhost:8080/api/ads', {
             method: 'POST',
             headers: {
@@ -80,7 +82,7 @@ export default class SaveAds extends React.Component {
                                         <Grid item>
                                             <TextField
                                                 type="text"
-                                                placeholder="Username"
+                                                placeholder="Kasutanimi"
                                                 fullWidth
                                                 name="username"
                                                 variant="outlined"
@@ -93,10 +95,9 @@ export default class SaveAds extends React.Component {
                                             <TextField
                                                 type="file"
                                                 name="file"
-                                                placeholder="file"
+                                                placeholder="Lisa pildid"
                                                 value={this.state.file}
                                                 onChange={this.uploadFileChange}
-                                                required
                                                 fullWidth
                                                 variant="outlined"
                                                 autoFocus
@@ -106,12 +107,53 @@ export default class SaveAds extends React.Component {
                                         <Grid item>
                                             <TextField
                                                 type="text"
-                                                placeholder="ad"
+                                                placeholder="Auto mark"
                                                 fullWidth
-                                                name="ad"
+                                                name="carMark"
                                                 variant="outlined"
                                                 onChange={this.handleChange}
-                                                value={this.state.ad.name}
+                                                value={this.state.ad.carMark}
+                                                inputProps={{ maxLength: 12 }}
+                                                autoFocus
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <TextField
+                                                type="text"
+                                                placeholder="Kirjeldus"
+                                                fullWidth
+                                                name="description"
+                                                variant="outlined"
+                                                onChange={this.handleChange}
+                                                value={this.state.description}
+                                                inputProps={{ maxLength: 255 }}
+                                                autoFocus
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <TextField
+                                                type="text"
+                                                placeholder="Hind"
+                                                fullWidth
+                                                name="price"
+                                                variant="outlined"
+                                                onChange={this.handleChange}
+                                                value={this.state.price}
+                                                inputProps={{ maxLength: 7 }}
+                                                autoFocus
+                                            />
+                                        </Grid>
+                                        <Grid item>
+                                            <TextField
+                                                type="text"
+                                                placeholder="Auto nr"
+                                                fullWidth
+                                                name="carSerialNr"
+                                                variant="outlined"
+                                                onChange={this.handleChange}
+                                                value={this.state.carSerialNr}
+                                                inputProps={{ maxLength: 6 }}
+                                                autoFocus
                                             />
                                         </Grid>
                                         <Grid item>

@@ -16,8 +16,8 @@ export class CarDetailPage extends React.Component {
         })
             .then(res => res.json())
             .then(response => {
-                this.setState({carsList: response.data})
-                console.log(response.data)
+                console.log(response)
+                this.setState({carsList: response})
             })
             .catch(error => {
                 console.log(error)
@@ -35,7 +35,10 @@ export class CarDetailPage extends React.Component {
                                 carID={item.id}
                                 price={item.price}
                                 carMark={item.carMark.carMark}
-                                pictureDto={item.pictureDto}
+                                pictureDto={item.pictureList}
+                                serialNr={item.serialNr}
+                                description={item.description}
+                                userName={item.account.email}
                             />
 
                         </Grid>;

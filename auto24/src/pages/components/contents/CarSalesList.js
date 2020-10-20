@@ -16,7 +16,6 @@ export default class CarSalesList extends React.Component {
             })
             .then(res => res.json())
             .then(response => {
-                console.log(response)
                 this.setState({carsList: response})
             })
             .catch(error => {
@@ -37,7 +36,9 @@ export default class CarSalesList extends React.Component {
                             carID={item.id}
                             price={item.price}
                             carMark={item.carMark.carMark}
-                            pictureDto={item.pictureDto}
+                            pictureDto={item.pictureList[0]}
+                            userName={item.account.email}
+                            description={item.description}
                         /></Grid>
                     })}
             </Grid>

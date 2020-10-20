@@ -14,14 +14,14 @@ const boxStyle = {
 export class CarDetailCard extends Component {
 
     render() {
-        const { userName, price, description, pictureDto, carMark, carModel} = this.props;
+        const { userName, price, description, pictureDto, carMark, carModel, serialNr} = this.props;
 
         return (
             <div>
                 <Grid container spacing={3} justify="center" alignItems="center">
                     <Grid item xs={12} align="center">
                         <Typography gutterBottom variant="h5" component="h2">
-                            {carMark} {carModel}
+                            {carMark} {carModel} {serialNr}
                         </Typography>
                         <Divider/>
                     </Grid>
