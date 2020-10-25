@@ -5,6 +5,7 @@ import LoginPage from "./pages/components/login/LoginPage";
 import {RegisterPage} from "./pages/components/login/RegisterPage";
 import {CarDetailPage} from "./pages/components/carDetailPage/CarDetailPage";
 import SaveAds from "./pages/components/saveAds/SaveAds";
+import SearchResults from "./pages/components/search/SearchResults";
 
 export default class Routing extends React.Component {
     render() {
@@ -15,6 +16,7 @@ export default class Routing extends React.Component {
                 <Route path="/registreeri" component={RegisterPage} />
                 <Route path="/carAds/:carID" component={CarDetailPage} />
                 <Route path="/uus" component={SaveAds} />
+                <Route path="/otsing/:startPrice/:stopPrice" component={SearchResults} />
                 <Route component={Error} />
             </Switch>
         );

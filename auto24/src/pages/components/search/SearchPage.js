@@ -8,6 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import SearchIcon from '@material-ui/icons/Search';
 import DialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
+import {Link} from "react-router-dom";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -22,11 +23,23 @@ export default class SearchPage extends React.Component {
             carsList: [],
             setOpen: false,
             searchingFor: false,
-            searchSelected: ''
+            maxPrice: 0,
+            minPrice: 0
         }
         this.handleClickOpen = this.handleClickOpen.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.handlePrice = this.handlePrice.bind(this)
+
+    }
+
+    handlePrice(event) {
+        this.setState(
+            {
+                [event.target.name]: event.target.value
+            }
+        )
+        console.log(this.state.minPrice)
     }
 
     handleChange(event) {
@@ -51,7 +64,6 @@ export default class SearchPage extends React.Component {
         this.setState(
             {setOpen: !this.state.setOpen}
         )
-        console.log(this.state.searchSelected)
     }
 
     componentDidMount(){
@@ -61,7 +73,6 @@ export default class SearchPage extends React.Component {
             })
             .then(res => res.json())
             .then(response => {
-                console.log(response)
                 this.setState({carsList: response})
             })
             .catch(error => {
@@ -74,7 +85,8 @@ export default class SearchPage extends React.Component {
 
 
     render() {
-        const { carsList, setOpen, searchingFor } = this.state
+        const { carsList, setOpen, searchingFor, minPrice, maxPrice } = this.state
+        let url = '/otsing/' + minPrice + '/' + maxPrice;
         return (
                 <div>
                     <IconButton aria-label="search" color="inherit" onClick={this.handleClickOpen}>
@@ -83,39 +95,27 @@ export default class SearchPage extends React.Component {
                     <Dialog open={setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Otsing</DialogTitle>
                         <DialogContent>
-                            <div>
-                                <FormControl style={{minWidth: 140}}>
-                                    <InputLabel id="filter" >Filter</InputLabel>
-                                    <Select
-                                        id="filter"
-                                        onChange={this.handleChange}
-                                        label='Automark'
-                                    >
-                                        <MenuItem selected={true} value="carMark">Automark</MenuItem>
-                                        <MenuItem value="price">Hind</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
                             <div style={{ width: 300 }}>
                                 <Autocomplete
                                     id="search"
                                     freeSolo
-                                    onChange={(event, value) => this.setState({searchSelected: value})}
                                     options={carsList.map(function (item) {
-                                        return searchingFor ? item.carMark.carMark : item.price.toString()
+                                        return item.carMark.carMark
                                     })}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Otsing"
+                                        <TextField {...params} label="Auto mark"
                                                    margin="normal" variant="outlined" />
                                     )}
                                 />
+                                <TextField name="minPrice" onChange={this.handlePrice} label="Min Hind" margin="normal" variant="outlined" />
+                                <TextField name="maxPrice" onChange={this.handlePrice} label="Max Hind" margin="normal" variant="outlined"/>
                             </div>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={this.handleClose} color="primary">
                                 Sulge
                             </Button>
-                            <Button onClick={this.handleClose} color="primary">
+                            <Button component={Link} to={url} onClick={this.handleClose} color="primary">
                                 Otsi
                             </Button>
                         </DialogActions>
