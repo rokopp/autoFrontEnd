@@ -21,15 +21,20 @@ export default class SearchPage extends React.Component {
         this.state = {
             carsList: [],
             setOpen: false,
-            searchingFor: false
+            searchingFor: false,
+            searchSelected: ''
         }
         this.handleClickOpen = this.handleClickOpen.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleChange = this.handleChange.bind(this)
-
     }
+
     handleChange(event) {
-        if (event.target.value === "price") {
+        if (event.target.value !== "price") {
+            this.setState(
+                {searchingFor: !this.state.searchingFor}
+            )
+        } else {
             this.setState(
                 {searchingFor: !this.state.searchingFor}
             )
@@ -42,10 +47,11 @@ export default class SearchPage extends React.Component {
         )
     }
 
-    handleClose() {
+    handleClose(event) {
         this.setState(
             {setOpen: !this.state.setOpen}
         )
+        console.log(this.state.searchSelected)
     }
 
     componentDidMount(){
@@ -55,6 +61,7 @@ export default class SearchPage extends React.Component {
             })
             .then(res => res.json())
             .then(response => {
+                console.log(response)
                 this.setState({carsList: response})
             })
             .catch(error => {
@@ -77,14 +84,15 @@ export default class SearchPage extends React.Component {
                         <DialogTitle id="form-dialog-title">Otsing</DialogTitle>
                         <DialogContent>
                             <div>
-                                <FormControl>
+                                <FormControl style={{minWidth: 140}}>
                                     <InputLabel id="filter" >Filter</InputLabel>
                                     <Select
                                         id="filter"
                                         onChange={this.handleChange}
+                                        label='Automark'
                                     >
+                                        <MenuItem selected={true} value="carMark">Automark</MenuItem>
                                         <MenuItem value="price">Hind</MenuItem>
-                                        <MenuItem value="carMark">Automark</MenuItem>
                                     </Select>
                                 </FormControl>
                             </div>
@@ -92,11 +100,13 @@ export default class SearchPage extends React.Component {
                                 <Autocomplete
                                     id="search"
                                     freeSolo
-                                    options={carsList.map((item) => {
-                                        return searchingFor ? item.carMark.carMark : item.price
+                                    onChange={(event, value) => this.setState({searchSelected: value})}
+                                    options={carsList.map(function (item) {
+                                        return searchingFor ? item.carMark.carMark : item.price.toString()
                                     })}
                                     renderInput={(params) => (
-                                        <TextField {...params} label="Otsing" margin="normal" variant="outlined" />
+                                        <TextField {...params} label="Otsing"
+                                                   margin="normal" variant="outlined" />
                                     )}
                                 />
                             </div>
