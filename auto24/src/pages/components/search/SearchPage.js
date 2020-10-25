@@ -9,10 +9,6 @@ import SearchIcon from '@material-ui/icons/Search';
 import DialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import {Link} from "react-router-dom";
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 
 
 export default class SearchPage extends React.Component {
@@ -22,36 +18,35 @@ export default class SearchPage extends React.Component {
         this.state = {
             carsList: [],
             setOpen: false,
-            searchingFor: false,
             maxPrice: 0,
-            minPrice: 0
+            minPrice: 0,
+            carMarkId: 0,
+            carMark: ""
         }
         this.handleClickOpen = this.handleClickOpen.bind(this)
         this.handleClose = this.handleClose.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handlePrice = this.handlePrice.bind(this)
+        this.handlePriceAndCarMark = this.handlePriceAndCarMark.bind(this)
 
     }
 
-    handlePrice(event) {
+    handlePriceAndCarMark(event) {
         this.setState(
             {
                 [event.target.name]: event.target.value
             }
         )
-        console.log(this.state.minPrice)
     }
 
-    handleChange(event) {
-        if (event.target.value !== "price") {
-            this.setState(
-                {searchingFor: !this.state.searchingFor}
-            )
-        } else {
-            this.setState(
-                {searchingFor: !this.state.searchingFor}
-            )
-        }
+    getCarMarkId(carMark) {
+        let carMarkIdSetter = 0;
+        this.state.carsList.map(function (item) {
+            if (item.carMark.carMark === carMark) {
+                carMarkIdSetter = item.carMark.id;
+            }
+        })
+        this.setState({
+            carMarkId: carMarkIdSetter
+        })
     }
 
     handleClickOpen() {
@@ -80,13 +75,11 @@ export default class SearchPage extends React.Component {
             });
     }
 
-
-
-
-
     render() {
-        const { carsList, setOpen, searchingFor, minPrice, maxPrice } = this.state
-        let url = '/otsing/' + minPrice + '/' + maxPrice;
+        const { carsList, setOpen, minPrice, maxPrice, carMarkId, carMark } = this.state
+        let urlPrice = '/otsing/hind/' + minPrice + '/' + maxPrice;
+        let urlCarMark = '/otsing/mark/' + carMarkId + '/' + carMark;
+
         return (
                 <div>
                     <IconButton aria-label="search" color="inherit" onClick={this.handleClickOpen}>
@@ -99,6 +92,14 @@ export default class SearchPage extends React.Component {
                                 <Autocomplete
                                     id="search"
                                     freeSolo
+                                    onChange={(event, value) => {
+                                        this.setState(
+                                            {
+                                                carMark: value
+                                            }
+                                        )
+                                        this.getCarMarkId(value)
+                                    }}
                                     options={carsList.map(function (item) {
                                         return item.carMark.carMark
                                     })}
@@ -107,16 +108,19 @@ export default class SearchPage extends React.Component {
                                                    margin="normal" variant="outlined" />
                                     )}
                                 />
-                                <TextField name="minPrice" onChange={this.handlePrice} label="Min Hind" margin="normal" variant="outlined" />
-                                <TextField name="maxPrice" onChange={this.handlePrice} label="Max Hind" margin="normal" variant="outlined"/>
+                                <TextField name="minPrice" onChange={this.handlePriceAndCarMark} label="Min Hind" margin="normal" variant="outlined" />
+                                <TextField name="maxPrice" onChange={this.handlePriceAndCarMark} label="Max Hind" margin="normal" variant="outlined"/>
                             </div>
                         </DialogContent>
                         <DialogActions>
                             <Button onClick={this.handleClose} color="primary">
                                 Sulge
                             </Button>
-                            <Button component={Link} to={url} onClick={this.handleClose} color="primary">
-                                Otsi
+                            <Button component={Link} to={urlCarMark} onClick={this.handleClose} color="primary">
+                                Otsi Auto margi järgi
+                            </Button>
+                            <Button component={Link} to={urlPrice} onClick={this.handleClose} color="primary">
+                                Otsi Hinna järgi
                             </Button>
                         </DialogActions>
                     </Dialog>

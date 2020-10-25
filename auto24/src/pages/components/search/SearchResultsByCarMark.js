@@ -1,28 +1,28 @@
 import React from 'react';
-import MediaCard from "../cards/MediaCards";
 import {Grid} from "@material-ui/core";
+import MediaCard from "../cards/MediaCards";
 
-export default class SearchResults extends React.Component {
-    constructor(props) {
-        super(props);
+export default class SearchResultsByCarMark extends React.Component {
+    constructor() {
+        super();
         this.state = {
-            startPrice: this.props.match.params.startPrice,
-            stopPrice: this.props.match.params.stopPrice,
-            carsList: [],
-            url: ''
+            carsList: []
         }
     }
-
     componentDidMount(){
-        const {startPrice, stopPrice} = this.state;
 
-        let url = 'http://localhost:8080/api/ads/search?start=' + startPrice +
-            '&stop=' + stopPrice;
-
-        console.log(url);
-        fetch(url,
+        let carMark = this.props.match.params.carMark;
+        let carMarkId = this.props.match.params.carMarkId;
+        fetch('http://localhost:8080/api/ads/search',
             {
-                method: 'GET',
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "id": carMarkId.toString(),
+                    "carMark": carMark
+                })
             })
             .then(res => res.json())
             .then(response => {
@@ -32,7 +32,8 @@ export default class SearchResults extends React.Component {
             .catch(error => {
                 console.log(error)
             });
-        console.log(this.props.match.params.startPrice)
+        console.log(this.props.match.params.carMark)
+        console.log(this.props.match.params.carMarkId)
     }
 
 
