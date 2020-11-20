@@ -40,7 +40,6 @@ export class CarDetailPage extends React.Component {
                                 description={item.description}
                                 userName={item.account.email}
                             />
-
                         </Grid>;
                     }
                 })}
