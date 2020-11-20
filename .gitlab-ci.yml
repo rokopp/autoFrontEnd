@@ -8,7 +8,6 @@ build auto24-frontend:
   cache:
     paths:
       - node_modules
-      - build
   tags:
     - auto24-frontend
   script:
@@ -17,6 +16,9 @@ build auto24-frontend:
 
 deploy auto24-frontend:
   stage: deploy
+  cache:
+    paths:
+      - build
   tags:
     - auto24-frontend
   script:
