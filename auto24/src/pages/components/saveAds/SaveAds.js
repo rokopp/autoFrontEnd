@@ -54,15 +54,14 @@ export default class SaveAds extends React.Component {
 
         const data = new FormData()
         data.append('file', uploadFile);
-        data.append('userName', username);
-        data.append('ad', JSON.stringify(ad));
-        console.log(JSON.stringify(ad));
-        fetch('http://localhost:8080/api/ads', {
+        fetch('http://localhost:8080/api/ads?userName=' + username + '&ad[carSerialNr]=' + ad.carSerialNr + '&ad[price]=' + ad.price + '&ad[description]=' + ad.description + '&ad[carMark]=' + ad.carMark.carMark, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
             },
-            body: (data)
+            body: JSON.stringify({
+                data
+            })
         })
 
             .then((response) => response.text())
