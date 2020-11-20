@@ -25,7 +25,7 @@ export default class LoginPage extends React.Component {
         event.preventDefault();
 
         const {username, password } = this.state;
-        fetch('http://13.48.57.170/:8080/api/login', {
+        fetch('http://13.48.57.170:8080/api/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
