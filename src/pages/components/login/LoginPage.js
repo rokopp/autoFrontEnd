@@ -9,6 +9,7 @@ export default class LoginPage extends React.Component {
             username: "",
             password: "",
             loggedIn: false,
+            error: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -35,7 +36,7 @@ export default class LoginPage extends React.Component {
                 userName: username,
                 password: password,
             },),
-            //credentials: 'include'
+            credentials: 'include'
         })
             .then(res => res.text())
             .then(response => {
@@ -43,6 +44,10 @@ export default class LoginPage extends React.Component {
                 if (response === 'success') {
                     this.setState({
                         loggedIn: true
+                    })
+                } else {
+                    this.setState({
+                        error: true
                     })
                 }
             })
@@ -80,6 +85,8 @@ export default class LoginPage extends React.Component {
                                                 variant="outlined"
                                                 value={this.state.username}
                                                 onChange={this.handleChange}
+                                                helperText={this.state.error ? 'Error' : ''}
+                                                error={this.state.error}
                                                 required
                                                 autoFocus
                                             />
