@@ -14,11 +14,12 @@ export default class App extends React.Component {
             .then(response => console.log("logged in?", response))
             .catch(error => console.log("check login error", error))
     }
-
-    componentDidMount() {
-        this.checkLogInStatus();
-    }
 */
+    componentDidMount() {
+        // this.checkLogInStatus();
+        document.title = 'RIP-OFF Auto24';
+    }
+
     render() {
         return (
             <div>
