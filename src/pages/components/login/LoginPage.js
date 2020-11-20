@@ -100,6 +100,8 @@ export default class LoginPage extends React.Component {
                                                 variant="outlined"
                                                 value={this.state.password}
                                                 onChange={this.handleChange}
+                                                helperText={this.state.error ? 'Error' : ''}
+                                                error={this.state.error}
                                                 required
                                             />
                                         </Grid>

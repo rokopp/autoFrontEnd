@@ -9,7 +9,8 @@ export class RegisterPage extends React.Component {
             password: "",
             email: "",
             phoneNumber: "",
-            loggedIn: false
+            loggedIn: false,
+            error: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -44,6 +45,10 @@ export class RegisterPage extends React.Component {
                 console.log("RESULTS HERE:", responseData);
                 if (responseData === 'success') {
                     this.setState({loggedIn: true});
+                } else {
+                    this.setState({
+                        error: true
+                    })
                 }
             })
             .catch((error) => {
@@ -77,6 +82,8 @@ export class RegisterPage extends React.Component {
                                             variant="outlined"
                                             value={this.state.username}
                                             onChange={this.handleChange}
+                                            helperText={this.state.error ? 'Error' : ''}
+                                            error={this.state.error}
                                             required
                                             autoFocus
                                         />
@@ -94,6 +101,8 @@ export class RegisterPage extends React.Component {
                                             fullWidth
                                             variant="outlined"
                                             autoFocus
+                                            helperText={this.state.error ? 'Error' : ''}
+                                            error={this.state.error}
                                         />
                                     </Grid>
 
@@ -109,6 +118,8 @@ export class RegisterPage extends React.Component {
                                             fullWidth
                                             variant="outlined"
                                             autoFocus
+                                            helperText={this.state.error ? 'Error' : ''}
+                                            error={this.state.error}
                                         />
                                     </Grid>
 
@@ -122,6 +133,8 @@ export class RegisterPage extends React.Component {
                                             value={this.state.password}
                                             onChange={this.handleChange}
                                             required
+                                            helperText={this.state.error ? 'Error' : ''}
+                                            error={this.state.error}
                                         />
                                     </Grid>
                                     <Grid item>
