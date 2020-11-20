@@ -16,7 +16,7 @@ export default class SearchResultsByPrice extends React.Component {
     componentDidMount(){
         const {startPrice, stopPrice} = this.state;
 
-        let url = 'http://localhost:8080/api/ads/search?start=' + startPrice +
+        let url = 'http://13.48.57.170:8080/api/ads/search?start=' + startPrice +
             '&stop=' + stopPrice;
 
         console.log(url);

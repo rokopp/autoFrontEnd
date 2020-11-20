@@ -11,7 +11,7 @@ export class CarDetailPage extends React.Component {
     }
 
     componentDidMount(){
-        fetch('http://localhost:8080/api/ads', {
+        fetch('http://13.48.57.170:8080/api/ads', {
             method: 'GET',
         })
             .then(res => res.json())

@@ -13,7 +13,7 @@ export default class SearchResultsByCarMark extends React.Component {
 
         let carMark = this.props.match.params.carMark;
         let carMarkId = this.props.match.params.carMarkId;
-        fetch('http://localhost:8080/api/ads/search',
+        fetch('http://13.48.57.170:8080/api/ads/search',
             {
                 method: 'POST',
                 headers: {

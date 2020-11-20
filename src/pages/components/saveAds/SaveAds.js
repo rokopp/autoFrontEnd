@@ -54,7 +54,7 @@ export default class SaveAds extends React.Component {
 
         const data = new FormData()
         data.append('file', uploadFile);
-        fetch('http://localhost:8080/api/ads?userName=' + username + '&ad[carSerialNr]=' + ad.carSerialNr + '&ad[price]=' + ad.price + '&ad[description]=' + ad.description + '&ad[carMark]=' + ad.carMark.carMark, {
+        fetch('http://13.48.57.170:8080/api/ads?userName=' + username + '&ad[carSerialNr]=' + ad.carSerialNr + '&ad[price]=' + ad.price + '&ad[description]=' + ad.description + '&ad[carMark]=' + ad.carMark.carMark, {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
