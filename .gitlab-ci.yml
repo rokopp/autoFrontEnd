@@ -13,15 +13,18 @@ build auto24-frontend:
   script:
     - npm install
     - npm run build
-
-deploy auto24-frontend:
-  stage: deploy
-  cache:
-    paths:
-      - build
-  tags:
-    - auto24-frontend
-  script:
     - mkdir -p ~/front-deployment
     - rm -rf ~/front-deployment/*
     - cp -r build/. ~/front-deployment
+
+#deploy auto24-frontend:
+#  stage: deploy
+#  cache:
+#    paths:
+#      - build
+#  tags:
+#    - auto24-frontend
+#  script:
+#    - mkdir -p ~/front-deployment
+#    - rm -rf ~/front-deployment/*
+#    - cp -r build/. ~/front-deployment
