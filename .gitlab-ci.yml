@@ -8,16 +8,13 @@ build auto24-frontend:
   cache:
     paths:
       - node_modules
-  artifacts:
-    paths:
-      - dist
   tags:
     - auto24-frontend
   script:
     - npm install
     - npm run build
 
-deploy heroes:
+deploy auto24-frontend:
   stage: deploy
   tags:
     - auto24-frontend
