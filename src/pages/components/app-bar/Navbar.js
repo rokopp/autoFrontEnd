@@ -3,7 +3,6 @@ import { AppBar,
     Toolbar,
     IconButton,
     Typography,
-    InputBase,
     useScrollTrigger,
     Slide} from '@material-ui/core';
 

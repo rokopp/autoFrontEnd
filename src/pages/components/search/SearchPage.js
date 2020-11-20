@@ -39,11 +39,13 @@ export default class SearchPage extends React.Component {
 
     getCarMarkId(carMark) {
         let carMarkIdSetter = 0;
-        this.state.carsList.map(function (item) {
-            if (item.carMark.carMark === carMark) {
-                carMarkIdSetter = item.carMark.id;
-            }
-        })
+        if (this.state.carsList.size !== 0 || this.state.carsList.size !== null) {
+            this.state.carsList.map(function (item) {
+                if (item.carMark.carMark === carMark) {
+                    carMarkIdSetter = item.carMark.id;
+                }
+            })
+        }
         this.setState({
             carMarkId: carMarkIdSetter
         })
