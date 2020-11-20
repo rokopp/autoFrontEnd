@@ -39,7 +39,7 @@ export default class SearchPage extends React.Component {
 
     getCarMarkId(carMark) {
         let carMarkIdSetter = 0;
-        this.state.carsList.map( (item) => {
+        this.state.carsList.forEach( (item) => {
             if (item.carMark.carMark === carMark) {
                 carMarkIdSetter = item.carMark.id;
             }
