@@ -1,5 +1,7 @@
 import React from 'react';
 import {Grid, TextField, Button} from "@material-ui/core";
+import AsyncStorage from "@react-native-community/async-storage";
+import LoginPage from "../login/LoginPage";
 
 export default class SaveAds extends React.Component {
     constructor() {
@@ -14,7 +16,8 @@ export default class SaveAds extends React.Component {
                 description: "",
                 price: 0,
                 carSerialNr: ""
-            }
+            },
+            loggedIn: false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleAdChange = this.handleAdChange.bind(this);
@@ -48,6 +51,26 @@ export default class SaveAds extends React.Component {
         })
     }
 
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('userData');
+            if (value !== null) {
+                // We have data!!
+                console.log(JSON.parse(value))
+
+                const username = JSON.parse(value).username;
+                this.setState({
+                    loggedIn: true,
+                    userName: username
+                });
+
+            }
+        } catch (error) {
+            // Error retrieving data
+            console.log("Something went wrong", error);
+        }
+    };
+
     handleSubmit(event) {
         const {username, uploadFile, ad} = this.state;
         event.preventDefault();
@@ -73,12 +96,14 @@ export default class SaveAds extends React.Component {
             });
     }
 
-
+    componentDidMount() {
+        this._retrieveData();
+    }
 
     render() {
         return (
             <div>
-                <Grid container spacing={0} justify="center" direction="row">
+                {this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
                     <Grid item>
                         <Grid
                             container
@@ -93,7 +118,7 @@ export default class SaveAds extends React.Component {
                                         <Grid item>
                                             <TextField
                                                 type="text"
-                                                placeholder="Kasutanimi"
+                                                placeholder={this.state.username}
                                                 fullWidth
                                                 name="username"
                                                 variant="outlined"
@@ -102,6 +127,7 @@ export default class SaveAds extends React.Component {
                                                 required
                                                 autoFocus
                                             />
+                                            {this.state.username}
                                         </Grid>
                                         <Grid item>
                                             <TextField
@@ -187,7 +213,7 @@ export default class SaveAds extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
+                </Grid> : <LoginPage/>}
             </div>
         );
     }

@@ -14,6 +14,7 @@ import ScrollToColor from "./ScrollToColor";
 import { Link } from "react-router-dom";
 import {useStyles} from "./NavbarUseStyles"
 import SearchPage from "../search/SearchPage";
+import LoginPage from "../login/LoginPage";
 
 function HideOnScroll(props) {
     const { children, window } = props;
@@ -44,6 +45,9 @@ export default function Navbar(props) {
                         <Typography className={classes.title} variant="h6" noWrap>
                             <IconButton to="/" component={Link}>RIP-OFF Auto24</IconButton>
                         </Typography>
+                        <div>
+                            <LoginPage/>
+                        </div>
                         <div>
                             <SearchPage/>
                         </div>

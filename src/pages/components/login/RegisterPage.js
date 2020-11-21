@@ -43,7 +43,7 @@ export class RegisterPage extends React.Component {
             .then((response) => response.text())
             .then((responseData) => {
                 console.log("RESULTS HERE:", responseData);
-                if (responseData.text() === 'success') {
+                if (responseData === 'success') {
                     this.setState({loggedIn: true});
                 } else {
                     this.setState({
@@ -76,7 +76,7 @@ export class RegisterPage extends React.Component {
                                     <Grid item>
                                         <TextField
                                             type="text"
-                                            placeholder="Username"
+                                            placeholder="Kasutajanimi"
                                             fullWidth
                                             name="username"
                                             variant="outlined"
@@ -152,7 +152,7 @@ export class RegisterPage extends React.Component {
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid> : <h2>Logged In</h2>}
+            </Grid> : <h2>Registreerimine õnnestus</h2>}
         </div>
         );
     };

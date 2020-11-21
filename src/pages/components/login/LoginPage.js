@@ -1,6 +1,9 @@
 import React from 'react';
 
 import {Grid, Typography, TextField, Button} from "@material-ui/core";
+import AsyncStorage  from "@react-native-community/async-storage";
+import IconButton from "@material-ui/core/IconButton";
+import Dialog from "@material-ui/core/Dialog";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -8,12 +11,27 @@ export default class LoginPage extends React.Component {
         this.state = {
             username: "",
             password: "",
-            loggedIn: false,
-            error: false
+            error: false,
+            setOpen: false,
+            loggedIn: false
         };
-
+        this.handleLogOut = this.handleLogOut.bind(this);
+        this.handleClickOpen = this.handleClickOpen.bind(this)
+        this.handleClose = this.handleClose.bind(this)
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleClickOpen() {
+        this.setState(
+            {setOpen: !this.state.setOpen}
+        )
+    }
+
+    handleClose(event) {
+        this.setState(
+            {setOpen: !this.state.setOpen}
+        )
     }
 
     handleChange(event) {
@@ -26,25 +44,34 @@ export default class LoginPage extends React.Component {
         event.preventDefault();
 
         const {username, password } = this.state;
+        const bodyData = JSON.stringify({
+            userName: username,
+            password: password,
+        },)
+
         fetch('http://13.48.57.170:8080/api/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                userName: username,
-                password: password,
-            },),
+            body: bodyData,
             withCredentials: true
         })
             .then(res => res.text())
             .then(response => {
                 console.log(response);
-                if (response.text() === 'success') {
+
+                if (response === 'success') {
+                    const loginData = JSON.stringify({
+                        userName: username,
+                        password: password,
+                        loggedIn: true
+                    },)
                     this.setState({
                         loggedIn: true
                     })
+                    this._storeData(loginData)
                 } else {
                     this.setState({
                         error: true
@@ -54,11 +81,68 @@ export default class LoginPage extends React.Component {
             .catch(error => {
                 console.log(error);
             });
+        window.location.reload();
+
     }
 
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('userData');
+            if (value !== null) {
+                // We have data!!
+                console.log(JSON.parse(value))
+
+                this.setState({
+                    loggedIn: true
+                });
+
+            }
+        } catch (error) {
+            // Error retrieving data
+            console.log("Something went wrong", error);
+        }
+    };
+
+    componentDidMount() {
+        this._retrieveData();
+    }
+
+    _storeData = async (user) => {
+        try {
+            await AsyncStorage.setItem(
+                'userData',
+                user
+            );
+        } catch (error) {
+            // Error saving data
+            console.log("Something went wrong", error);
+        }
+    };
+
+    handleLogOut() {
+        this.setState({loggedIn: false})
+        this._removeSession();
+        window.location.reload();
+    }
+
+    _removeSession = async () => {
+        try {
+            await AsyncStorage.removeItem("userData");
+            return true;
+        }
+        catch(exception) {
+            return false;
+        }
+    }
     render() {
+        const { setOpen } = this.state
+
         return (
             <div>
+                {!this.state.loggedIn ? <IconButton aria-label="search" color="inherit" onClick={this.handleClickOpen}> Logi sisse </IconButton>
+                    : <IconButton color="inherit" onClick={this.handleLogOut}> Logi välja </IconButton>}
+                <Dialog open={setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+
                 { !this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
                     <Grid item>
                         <Grid
@@ -121,6 +205,7 @@ export default class LoginPage extends React.Component {
                         </Grid>
                     </Grid>
                 </Grid> : <h2>Sisse logitud</h2>}
+                </Dialog>
             </div>
         );
     }

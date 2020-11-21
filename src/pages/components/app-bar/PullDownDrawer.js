@@ -5,7 +5,6 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { List, ListItem, ListItemText, Divider, IconButton, Drawer} from '@material-ui/core';
 import {useStyles} from './NavbarUseStyles';
 
-
 export default function PullDownDrawer() {
     const classes = useStyles();
     const [state, setState] = React.useState({
@@ -21,10 +20,6 @@ export default function PullDownDrawer() {
     };
 
     const navbarLinks = [
-        {
-            name: "Logi sisse",
-            link: "login"
-        },
         {
             name: "Registreeri",
             link: "registreeri"
