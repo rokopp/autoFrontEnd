@@ -4,6 +4,7 @@ import {Grid, Typography, TextField, Button} from "@material-ui/core";
 import AsyncStorage  from "@react-native-community/async-storage";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -144,7 +145,7 @@ export default class LoginPage extends React.Component {
                 <Dialog open={setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
 
                 { !this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
-                    <Grid item>
+                   <DialogContent> <Grid item>
                         <Grid
                             container
                             direction="column"
@@ -204,6 +205,7 @@ export default class LoginPage extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                   </DialogContent>
                 </Grid> : <h2>Sisse logitud</h2>}
                 </Dialog>
             </div>
