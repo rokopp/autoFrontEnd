@@ -41,7 +41,7 @@ export default class LoginPage extends React.Component {
             .then(res => res.text())
             .then(response => {
                 console.log(response);
-                if (response === 'success') {
+                if (response.text() === 'success') {
                     this.setState({
                         loggedIn: true
                     })

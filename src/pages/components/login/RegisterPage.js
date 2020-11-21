@@ -43,7 +43,7 @@ export class RegisterPage extends React.Component {
             .then((response) => response.text())
             .then((responseData) => {
                 console.log("RESULTS HERE:", responseData);
-                if (responseData === 'success') {
+                if (responseData.text() === 'success') {
                     this.setState({loggedIn: true});
                 } else {
                     this.setState({
