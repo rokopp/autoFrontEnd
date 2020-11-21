@@ -11,7 +11,7 @@ import axios from 'axios';
 export default class App extends React.Component {
 
     checkLogInStatus() {
-        axios.get("http//localhost:8080/api/login", { withCredentials: true })
+        axios.get("http//13.48.57.170:8080/api/login", { withCredentials: true })
             .then(response => console.log("logged in?", response))
             .catch(error => console.log("check login error", error))
     }
@@ -47,3 +47,12 @@ export default class App extends React.Component {
         );
     }
 }
+
+const express = require('express');
+const cors = require('cors');
+const app = express();
+app.use(cors());
+app.all('*', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
+    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");})
