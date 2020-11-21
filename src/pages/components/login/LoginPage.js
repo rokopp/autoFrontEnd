@@ -36,7 +36,7 @@ export default class LoginPage extends React.Component {
                 userName: username,
                 password: password,
             },),
-            // credentials: 'include'
+            credentials: 'include'
         })
             .then(res => res.text())
             .then(response => {

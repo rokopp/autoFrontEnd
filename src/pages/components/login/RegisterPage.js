@@ -37,7 +37,7 @@ export class RegisterPage extends React.Component {
                 email: email,
                 phoneNumber: phoneNumber
             }),
-            //credentials: 'include'
+            credentials: 'include'
         })
 
             .then((response) => response.text())

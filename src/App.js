@@ -5,18 +5,19 @@ import BackToTop from "./pages/components/app-bar/BackToTop";
 import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
 import Routing from "./Routing";
+import axios from 'axios';
 
 
 export default class App extends React.Component {
-/*
+
     checkLogInStatus() {
         axios.get("http//localhost:8080/api/login", { withCredentials: true })
             .then(response => console.log("logged in?", response))
             .catch(error => console.log("check login error", error))
     }
-*/
+
     componentDidMount() {
-        // this.checkLogInStatus();
+        this.checkLogInStatus();
         document.title = 'RIP-OFF Auto24';
     }
 
