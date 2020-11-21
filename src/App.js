@@ -7,16 +7,6 @@ import {Grid} from "@material-ui/core";
 import Routing from "./Routing";
 import axios from 'axios';
 
-
-const express = require('express');
-const cors = require('cors');
-const app = express();
-app.use(cors());
-app.all('*', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With");
-    res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");})
-
 export default class App extends React.Component {
 
     checkLogInStatus() {
