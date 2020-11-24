@@ -63,7 +63,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         this._retrieveData();
-        document.title = 'App';
+        // document.title = 'App';
     }
 
     render() {
