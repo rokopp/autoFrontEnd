@@ -63,7 +63,7 @@ export default class App extends React.Component {
 
     componentDidMount() {
         this._retrieveData();
-        document.title = 'RIP-OFF Auto24';
+        document.title = 'App';
     }
 
     render() {
