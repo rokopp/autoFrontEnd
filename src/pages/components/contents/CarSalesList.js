@@ -10,7 +10,7 @@ export default class CarSalesList extends React.Component {
         }
     }
     componentDidMount(){
-        fetch('http://13.48.57.170:8080/api/ads',
+        fetch('http://13.53.200.72:8080/api/ads',
             {
                 method: 'GET'
             })
