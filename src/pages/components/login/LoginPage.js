@@ -50,7 +50,7 @@ export default class LoginPage extends React.Component {
             password: password,
         },)
 
-        fetch('http://13.48.57.170:8080/api/login', {
+        fetch('http://13.53.200.72:8080/api/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
