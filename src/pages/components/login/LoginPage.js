@@ -5,6 +5,7 @@ import AsyncStorage  from "@react-native-community/async-storage";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
+import axios from 'axios';
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -50,17 +51,7 @@ export default class LoginPage extends React.Component {
             password: password,
         },)
 
-        fetch('http://13.53.200.72:8080/api/login', {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: bodyData,
-            withCredentials: true
-        })
-            .then(res => res.text())
+        axios.post('http://13.53.200.72:8080/api/login', {bodyData})
             .then(response => {
                 console.log(response);
 
@@ -82,7 +73,40 @@ export default class LoginPage extends React.Component {
             })
             .catch(error => {
                 console.log(error);
-            });
+            })
+        // fetch('http://13.53.200.72:8080/api/login', {
+        //     method: 'POST',
+        //     mode: 'cors',
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: bodyData,
+        //     withCredentials: true
+        // })
+        //     .then(res => res.text())
+        //     .then(response => {
+        //         console.log(response);
+        //
+        //         if (response === 'success') {
+        //             const loginData = JSON.stringify({
+        //                 userName: username,
+        //                 password: password,
+        //                 loggedIn: true
+        //             },)
+        //             this.setState({
+        //                 loggedIn: true
+        //             })
+        //             this._storeData(loginData)
+        //         } else {
+        //             this.setState({
+        //                 error: true
+        //             })
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     });
 
     }
 
