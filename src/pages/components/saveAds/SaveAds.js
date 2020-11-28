@@ -79,7 +79,7 @@ export default class SaveAds extends React.Component {
         data.append('file', uploadFile);
         fetch('http://13.53.200.72:8080/api/ads?userName=' + username + '&ad[carSerialNr]=' + ad.carSerialNr + '&ad[price]=' + ad.price + '&ad[description]=' + ad.description + '&ad[carMark]=' + ad.carMark.carMark, {
             method: 'POST',
-            mode: 'no-cors',
+            mode: 'cors',
             headers: {
                 'Accept': 'application/json',
             },

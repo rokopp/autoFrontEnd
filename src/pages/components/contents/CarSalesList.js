@@ -13,7 +13,7 @@ export default class CarSalesList extends React.Component {
         fetch('http://13.53.200.72:8080/api/ads',
             {
                 method: 'GET',
-                mode: 'no-cors',
+                mode: 'cors',
             })
             .then(res => res.json())
             .then(response => {
