@@ -46,10 +46,15 @@ export default class LoginPage extends React.Component {
         event.preventDefault();
 
         const {username, password } = this.state;
-        const bodyData = JSON.stringify({
+        // const bodyData = JSON.stringify({
+        //     userName: username,
+        //     password: password,
+        // },)
+
+        const bodyData = {
             userName: username,
             password: password,
-        },)
+        };
 
         axios.post('http://13.53.200.72:8080/api/login', {bodyData})
             .then(response => {
