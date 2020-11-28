@@ -16,6 +16,7 @@ export default class SearchResultsByCarMark extends React.Component {
         fetch('http://13.53.200.72:8080/api/ads/search',
             {
                 method: 'POST',
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },

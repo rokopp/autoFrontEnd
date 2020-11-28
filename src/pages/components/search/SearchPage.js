@@ -64,7 +64,8 @@ export default class SearchPage extends React.Component {
     componentDidMount(){
         fetch('http://13.53.200.72:8080/api/ads',
             {
-                method: 'GET'
+                method: 'GET',
+                mode: 'no-cors',
             })
             .then(res => res.json())
             .then(response => {

@@ -27,6 +27,7 @@ export class RegisterPage extends React.Component {
         event.preventDefault();
         fetch('http://13.53.200.72:8080/api/register', {
             method: 'POST',
+            mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

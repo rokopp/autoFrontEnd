@@ -26,9 +26,10 @@ export default class App extends React.Component {
         },)
         fetch("http://13.53.200.72:8080/api/login", {
             method: 'POST',
+            mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
             body: bodyData,
             withCredentials: true
