@@ -2,6 +2,7 @@ import React from 'react';
 import {Grid, TextField, Button} from "@material-ui/core";
 import AsyncStorage from "@react-native-community/async-storage";
 import LoginPage from "../login/LoginPage";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export default class SaveAds extends React.Component {
     constructor() {
@@ -11,13 +12,15 @@ export default class SaveAds extends React.Component {
             uploadFile: null,
             ad: {
                 carMark: {
+                    id: "",
                     carMark: ""
                 },
                 description: "",
                 price: 0,
                 carSerialNr: ""
             },
-            loggedIn: false
+            loggedIn: false,
+            carMarkList: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleAdChange = this.handleAdChange.bind(this);
@@ -58,7 +61,7 @@ export default class SaveAds extends React.Component {
                 // We have data!!
                 console.log(JSON.parse(value))
 
-                const username = JSON.parse(value).username;
+                const username = JSON.parse(value).userName;
                 this.setState({
                     loggedIn: true,
                     userName: username
@@ -72,20 +75,23 @@ export default class SaveAds extends React.Component {
     };
 
     handleSubmit(event) {
-        const {username, uploadFile, ad} = this.state;
+        const {userName, uploadFile, ad} = this.state;
         event.preventDefault();
+
+        console.log(ad)
 
         const data = new FormData()
         data.append('file', uploadFile);
-        fetch('http://13.53.200.72:8080/api/ads?userName=' + username + '&ad[carSerialNr]=' + ad.carSerialNr + '&ad[price]=' + ad.price + '&ad[description]=' + ad.description + '&ad[carMark]=' + ad.carMark.carMark, {
+        const parameterData = "carMark=" + ad.carMark.id + "&description=" + ad.description +
+            "&carSerialNr=" + ad.carSerialNr + "&price=" + ad.price;
+        fetch('http://localhost:8080/api/ads?userName=' + userName + "&" + parameterData, {
             method: 'POST',
             mode: 'cors',
             headers: {
                 'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                data
-            })
+            body: data
         })
 
             .then((response) => response.text())
@@ -97,15 +103,51 @@ export default class SaveAds extends React.Component {
             });
     }
 
+    getCarMarks() {
+        fetch('http://localhost:8080/api/carMarks', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+            .then((response) => response.text())
+            .then((responseData) => {
+                this.setState({
+                    carMarkList: JSON.parse(responseData)
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+    getCarMarkId(carMark) {
+        let carMarkIdSetter = 0;
+        this.state.carMarkList.forEach( (item) => {
+            if (item.carMark === carMark) {
+                carMarkIdSetter = item.id;
+            }
+        })
+        this.setState({
+            ad: {
+                carMark: {
+                    id: carMarkIdSetter
+                }
+            }
+        })
+    }
     componentDidMount() {
+        // this.getCarMarks();
         this._retrieveData();
     }
 
     render() {
+        const { carMarkList } = this.state
+
         return (
             <div>
                 {this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
                     <Grid item>
+
                         <Grid
                             container
                             direction="column"
@@ -117,18 +159,7 @@ export default class SaveAds extends React.Component {
                                 <form onSubmit={this.handleSubmit}>
                                     <Grid container direction="column" spacing={2}>
                                         <Grid item>
-                                            <TextField
-                                                type="text"
-                                                placeholder={this.state.username}
-                                                fullWidth
-                                                name="username"
-                                                variant="outlined"
-                                                value={this.state.username}
-                                                onChange={this.handleChange}
-                                                required
-                                                autoFocus
-                                            />
-                                            {this.state.username}
+                                            <h4>Kasutaja: </h4><h3>{this.state.userName}</h3>
                                         </Grid>
                                         <Grid item>
                                             <TextField
@@ -144,17 +175,23 @@ export default class SaveAds extends React.Component {
                                         </Grid>
 
                                         <Grid item>
-                                            <TextField
-                                                type="text"
-                                                placeholder="Auto mark"
-                                                fullWidth
-                                                name="carMark"
-                                                variant="outlined"
-                                                onChange={this.handleCarMarkChange}
-                                                value={this.state.carMark}
-                                                inputProps={{ maxLength: 12 }}
-                                                required
-                                                autoFocus
+                                            <Autocomplete
+                                                freeSolo
+                                                onChange={(event, value) => {
+                                                    this.setState(
+                                                        {
+                                                            carMark: value
+                                                        }
+                                                    )
+                                                    this.getCarMarkId(value)
+                                                }}
+                                                options={carMarkList.map(function (item) {
+                                                    return item.carMark
+                                                })}
+                                                renderInput={(params) => (
+                                                    <TextField {...params} label="Auto mark"
+                                                               margin="normal" variant="outlined" />
+                                                )}
                                             />
                                         </Grid>
                                         <Grid item>
