@@ -49,7 +49,7 @@ export default function Navbar() {
                         <div>
                             {/*<LoginPage/>*/}
                         </div>
-                        <Link to={{pathname: "/login"}}>Login</Link>
+                        <Link to={{pathname: "/login", search: "error=false"}}>Login</Link>
                         <div>
                             <SearchPage/>
                         </div>

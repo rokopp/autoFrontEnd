@@ -18,7 +18,7 @@ export default class SaveAds extends React.Component {
                 carSerialNr: ""
             },
         }
-        
+
         this.handleChange = this.handleChange.bind(this);
         this.handleAdChange = this.handleAdChange.bind(this);
         this.handleCarMarkChange = this.handleCarMarkChange.bind(this);
@@ -58,7 +58,7 @@ export default class SaveAds extends React.Component {
                 // We have data!!
                 console.log(JSON.parse(value))
 
-                const username = JSON.parse(value).username;
+                const username = JSON.parse(value).userName;
                 this.setState({
                     loggedIn: true,
                     userName: username
@@ -77,11 +77,13 @@ export default class SaveAds extends React.Component {
 
         const data = new FormData()
         data.append('file', uploadFile);
-        fetch('http://13.53.200.72:8080/api/ads?userName=' + username + '&ad[carSerialNr]=' + ad.carSerialNr + '&ad[price]=' + ad.price + '&ad[description]=' + ad.description + '&ad[carMark]=' + ad.carMark.carMark, {
+        fetch('http://localhost:8080/api/ads?userName=' + username + '&carSerialNr=' + ad.carSerialNr + '&price='
+            + ad.price + '&description=' + ad.description + '&carMark=' + ad.carMark.carMark, {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
+                'Authorization': 'Basic'
             },
             body: JSON.stringify({
                 data
@@ -117,18 +119,7 @@ export default class SaveAds extends React.Component {
                                 <form onSubmit={this.handleSubmit}>
                                     <Grid container direction="column" spacing={2}>
                                         <Grid item>
-                                            <TextField
-                                                type="text"
-                                                placeholder={this.state.username}
-                                                fullWidth
-                                                name="username"
-                                                variant="outlined"
-                                                value={this.state.username}
-                                                onChange={this.handleChange}
-                                                required
-                                                autoFocus
-                                            />
-                                            {this.state.username}
+                                            {this.state.userName}
                                         </Grid>
                                         <Grid item>
                                             <TextField

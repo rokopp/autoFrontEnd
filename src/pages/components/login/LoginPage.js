@@ -6,7 +6,6 @@ import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
 import PropTypes from 'prop-types'
-import Input from "../input/input";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -88,7 +87,7 @@ export default class LoginPage extends React.Component {
                 })
                 .catch(e => console.warn(e))
         }
-        if (this.state.error) {
+        if (!this.state.error) {
             this.setState({
                 loggedIn: true
             })
