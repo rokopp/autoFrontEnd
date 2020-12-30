@@ -15,7 +15,8 @@ export default class LoginPage extends React.Component {
             username: "",
             password: "",
             setOpen: false,
-            loggedIn: false
+            loggedIn: false,
+            error: false
         };
 
         if(props.error) {

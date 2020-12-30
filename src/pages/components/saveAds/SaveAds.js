@@ -17,8 +17,8 @@ export default class SaveAds extends React.Component {
                 price: 0,
                 carSerialNr: ""
             },
-            loggedIn: false
         }
+        
         this.handleChange = this.handleChange.bind(this);
         this.handleAdChange = this.handleAdChange.bind(this);
         this.handleCarMarkChange = this.handleCarMarkChange.bind(this);
