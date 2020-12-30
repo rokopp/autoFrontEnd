@@ -5,7 +5,8 @@ import AsyncStorage  from "@react-native-community/async-storage";
 import IconButton from "@material-ui/core/IconButton";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import axios from 'axios';
+import PropTypes from 'prop-types'
+import Input from "../input/input";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -13,15 +14,42 @@ export default class LoginPage extends React.Component {
         this.state = {
             username: "",
             password: "",
-            error: false,
             setOpen: false,
             loggedIn: false
         };
+
+        if(props.error) {
+            this.state = {
+                failure: 'wrong username or password!',
+                errcount: 0
+            }
+        } else {
+            this.state = { errcount: 0 }
+        }
+
         this.handleLogOut = this.handleLogOut.bind(this);
         this.handleClickOpen = this.handleClickOpen.bind(this)
         this.handleClose = this.handleClose.bind(this)
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleError = (field, errmsg) => {
+        if(!field) return
+
+        if(errmsg) {
+            this.setState((prevState) => ({
+                failure: '',
+                errcount: prevState.errcount + 1,
+                errmsgs: {...prevState.errmsgs, [field]: errmsg}
+            }))
+        } else {
+            this.setState((prevState) => ({
+                failure: '',
+                errcount: prevState.errcount===1? 0 : prevState.errcount-1,
+                errmsgs: {...prevState.errmsgs, [field]: ''}
+            }))
+        }
     }
 
     handleClickOpen() {
@@ -46,39 +74,53 @@ export default class LoginPage extends React.Component {
         event.preventDefault();
 
         const {username, password } = this.state;
-        // const bodyData = JSON.stringify({
-        //     userName: username,
-        //     password: password,
-        // },)
 
-        const bodyData = {
-            userName: username,
-            password: password,
-        };
-
-        axios.post('http://13.53.200.72:8080/api/login', {bodyData})
-            .then(response => {
-                console.log(response);
-
-                if (response === 'success') {
-                    const loginData = JSON.stringify({
-                        userName: username,
-                        password: password,
-                        loggedIn: true
-                    },)
-                    this.setState({
-                        loggedIn: true
-                    })
-                    this._storeData(loginData)
-                } else {
-                    this.setState({
-                        error: true
-                    })
-                }
+        if(!this.state.errcount) {
+            const data = new FormData(this.form)
+            fetch(this.form.action, {
+                method: this.form.method,
+                body: new URLSearchParams(data)
             })
-            .catch(error => {
-                console.log(error);
+                .then(v => {
+                    if(v.redirected) window.location = v.url
+
+                })
+                .catch(e => console.warn(e))
+        }
+        if (this.state.error) {
+            this.setState({
+                loggedIn: true
             })
+            const loginData = JSON.stringify({
+                userName: username,
+                password: password,
+                loggedIn: true
+            },)
+            this._storeData(loginData)
+        }
+        // axios.post('http://13.53.200.72:8080/api/login', {bodyData})
+        //     .then(response => {
+        //         console.log(response);
+        //
+        //         if (response === 'success') {
+        //             const loginData = JSON.stringify({
+        //                 userName: username,
+        //                 password: password,
+        //                 loggedIn: true
+        //             },)
+        //             this.setState({
+        //                 loggedIn: true
+        //             })
+        //             this._storeData(loginData)
+        //         } else {
+        //             this.setState({
+        //                 error: true
+        //             })
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.log(error);
+        //     })
         // fetch('http://13.53.200.72:8080/api/login', {
         //     method: 'POST',
         //     mode: 'cors',
@@ -133,8 +175,20 @@ export default class LoginPage extends React.Component {
         }
     };
 
+    checkForError() {
+        const searchParams = new URLSearchParams(window.location.search);
+
+        if (searchParams.get("error") === "true") {
+            this.setState(
+                {
+                    error: true
+                }
+            )
+        }
+    }
     componentDidMount() {
         this._retrieveData();
+        this.checkForError();
     }
 
     _storeData = async (user) => {
@@ -166,15 +220,10 @@ export default class LoginPage extends React.Component {
     }
     render() {
         const { setOpen } = this.state
-
         return (
             <div>
-                {!this.state.loggedIn ? <IconButton aria-label="search" color="inherit" onClick={this.handleClickOpen}> Logi sisse </IconButton>
-                    : <IconButton color="inherit" onClick={this.handleLogOut}> Logi välja </IconButton>}
-                <Dialog open={setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
-
-                { !this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
-                   <DialogContent> <Grid item>
+                {!this.state.loggedIn ? <DialogContent>
+                    <Grid item>
                         <Grid
                             container
                             direction="column"
@@ -188,7 +237,7 @@ export default class LoginPage extends React.Component {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <form onSubmit={this.handleSubmit}>
+                                <form {...this.props} onSubmit={this.handleSubmit} ref={fm => {this.form=fm}}>
                                     <Grid container direction="column" spacing={2}>
                                         <Grid item>
                                             <TextField
@@ -234,10 +283,22 @@ export default class LoginPage extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                   </DialogContent>
+                </DialogContent>
+                    : <IconButton color="inherit" onClick={this.handleLogOut}> Logi välja </IconButton>}
+                <Dialog open={setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
+
+                { !this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
                 </Grid> : <h2>Sisse logitud</h2>}
                 </Dialog>
             </div>
         );
     }
+}
+
+LoginPage.propTypes = {
+    name: PropTypes.string,
+    action: PropTypes.string,
+    method: PropTypes.string,
+    inputs: PropTypes.array,
+    error: PropTypes.string
 }

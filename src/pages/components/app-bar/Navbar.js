@@ -33,7 +33,8 @@ HideOnScroll.propTypes = {
 };
 
 
-export default function Navbar(props) {
+
+export default function Navbar() {
     const classes = useStyles();
 
     return (
@@ -46,8 +47,9 @@ export default function Navbar(props) {
                             <IconButton to="/" component={Link}>RIP-OFF Auto24</IconButton>
                         </Typography>
                         <div>
-                            <LoginPage/>
+                            {/*<LoginPage/>*/}
                         </div>
+                        <Link to={{pathname: "/login"}}>Login</Link>
                         <div>
                             <SearchPage/>
                         </div>
