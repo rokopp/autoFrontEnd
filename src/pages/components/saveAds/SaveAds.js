@@ -8,6 +8,7 @@ export default class SaveAds extends React.Component {
         super();
         this.state = {
             userName: "",
+            password: "",
             uploadFile: null,
             ad: {
                 carMark: {
@@ -59,9 +60,12 @@ export default class SaveAds extends React.Component {
                 console.log(JSON.parse(value))
 
                 const username = JSON.parse(value).userName;
+                const password = JSON.parse(value).password;
+
                 this.setState({
                     loggedIn: true,
-                    userName: username
+                    userName: username,
+                    password: password
                 });
 
             }
@@ -72,18 +76,18 @@ export default class SaveAds extends React.Component {
     };
 
     handleSubmit(event) {
-        const {username, uploadFile, ad} = this.state;
+        const {username, password, uploadFile, ad} = this.state;
         event.preventDefault();
 
         const data = new FormData()
         data.append('file', uploadFile);
-        fetch('http://localhost:8080/api/ads?userName=' + username + '&carSerialNr=' + ad.carSerialNr + '&price='
-            + ad.price + '&description=' + ad.description + '&carMark=' + ad.carMark.carMark, {
+        fetch('http://localhost:8080/api/ads?carSerialNr=' + ad.carSerialNr + '&price='
+            + ad.price + '&description=' + ad.description + '&carMark=' + 1, {
             method: 'POST',
             mode: 'no-cors',
             headers: {
                 'Accept': 'application/json',
-                'Authorization': 'Basic'
+                'Authorization': 'Basic ' + window.btoa(username + ":" + password)
             },
             body: JSON.stringify({
                 data
@@ -97,11 +101,13 @@ export default class SaveAds extends React.Component {
             .catch((error) => {
                 console.error(error);
             });
+        console.log("Login " + window.btoa(username + ":" + password))
     }
 
     componentDidMount() {
         this._retrieveData();
     }
+
 
     render() {
         return (

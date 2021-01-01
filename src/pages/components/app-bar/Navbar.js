@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import {useStyles} from "./NavbarUseStyles"
 import SearchPage from "../search/SearchPage";
 import LoginPage from "../login/LoginPage";
+import AsyncStorage from "@react-native-community/async-storage";
 
 function HideOnScroll(props) {
     const { children, window } = props;
@@ -34,9 +35,24 @@ HideOnScroll.propTypes = {
 
 
 
-export default function Navbar() {
+export default function Navbar(props) {
     const classes = useStyles();
+    let handleLogOut;
+    handleLogOut = () => {
+        _removeSession();
+        window.location.reload();
+    }
 
+    let _removeSession;
+    _removeSession = async () => {
+        try {
+            await AsyncStorage.removeItem("userData");
+            return true;
+        }
+        catch(exception) {
+            return false;
+        }
+    }
     return (
         <div className={classes.root} id="back-to-top-anchor">
             <ScrollToColor>
@@ -48,8 +64,12 @@ export default function Navbar() {
                         </Typography>
                         <div>
                             {/*<LoginPage/>*/}
+                            {!props.loggedIn ? <Link to={{pathname: "/login"}}>
+                                <h2>Logi sisse</h2>
+                            </Link> : <Link onClick={handleLogOut}>
+                                <h2>Logi välja</h2>
+                            </Link>}
                         </div>
-                        <Link to={{pathname: "/login", search: "error=false"}}>Login</Link>
                         <div>
                             <SearchPage/>
                         </div>

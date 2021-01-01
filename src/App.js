@@ -6,6 +6,31 @@ import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
 import Routing from "./Routing";
 import AsyncStorage from '@react-native-community/async-storage';
+import {SERVER_URL} from "./config";
+
+const inputs = [{
+    name: "username",
+    placeholder: "Kasutajanimi",
+    type: "text",
+},{
+    name: "password",
+    placeholder: "Parool",
+    type: "password",
+},{
+    type: "submit",
+    value: "Logi sisse",
+    color: "primary",
+    className: "button-block"
+}]
+
+const props = {
+    name: 'loginForm',
+    method: 'POST',
+    action: SERVER_URL + '/perform_login',
+    inputs: inputs
+}
+
+const params = new URLSearchParams(window.location.search)
 
 export default class App extends React.Component {
 
@@ -54,7 +79,13 @@ export default class App extends React.Component {
                 // We have data!!
                 const username = JSON.parse(value).userName;
                 const password = JSON.parse(value).password;
-                this.checkLogInStatus(username, password);
+                const loggedIn = JSON.parse(value).loggedIn;
+
+                console.log("User " + username + " password " + password + " logStat " + loggedIn)
+                this.setState({
+                    loggedIn: loggedIn
+                })
+                //this.checkLogInStatus(username, password);
             }
         } catch (error) {
             // Error retrieving data
@@ -64,7 +95,6 @@ export default class App extends React.Component {
 
     componentDidMount() {
         this._retrieveData();
-        // document.title = 'App';
     }
 
     render() {
@@ -72,7 +102,7 @@ export default class App extends React.Component {
             <div>
                 <Grid container direction={"column"}>
                     <Grid item>
-                        <Navbar/>
+                        <Navbar  />
                     </Grid>
 
                     <Grid item>
@@ -83,7 +113,7 @@ export default class App extends React.Component {
                     <Grid item container style={{paddingTop: "10%"}}>
                         <Grid item xs={0} sm={2}/>
                         <Grid item xs={12} sm={8}>
-                            <Routing/>
+                            <Routing {...props} error={params.get('error')} />
                         </Grid>
                         <Grid item xs={0} sm={2}/>
                     </Grid>
