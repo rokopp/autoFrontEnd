@@ -149,6 +149,8 @@ export default class LoginPage extends React.Component {
         const errors = this.renderError()
         return (
             <div>
+                <h2>Admin kasutaja: aaa</h2>
+                <h2>parool: aaa</h2>
                 {!this.state.loggedIn ?
                     <form {...this.props} onSubmit={this.handleSubmit} ref={fm => {this.form=fm}} >
                         {inputs}
