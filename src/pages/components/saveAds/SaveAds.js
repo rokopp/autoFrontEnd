@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import LoginPage from "../login/LoginPage";
 import {SERVER_URL} from "../../../config";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import {Link} from "react-router-dom";
 
 export default class SaveAds extends React.Component {
     constructor() {
@@ -24,7 +25,6 @@ export default class SaveAds extends React.Component {
             carMarkList: []
         }
 
-        this.handleChange = this.handleChange.bind(this);
         this.handleAdChange = this.handleAdChange.bind(this);
         this.handleCarMarkChange = this.handleCarMarkChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,12 +40,6 @@ export default class SaveAds extends React.Component {
     handleAdChange(event) {
         this.setState({
             ad: {...this.state.ad, [event.target.name]: event.target.value}
-        })
-    }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value,
         })
     }
 
@@ -173,7 +167,7 @@ export default class SaveAds extends React.Component {
                                         </Grid>
                                         <Grid item>
                                             <input
-                                                accept="image/*"
+                                                accept="image/png"
                                                 value={this.state.file}
                                                 onChange={this.uploadFileChange}
                                                 multiple
@@ -259,7 +253,7 @@ export default class SaveAds extends React.Component {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Grid> : <LoginPage/>}
+                </Grid> : <Link to={"/registreeri"}><h3>Loo kasutaja</h3></Link>}
             </div>
         );
     }

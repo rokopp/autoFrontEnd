@@ -15,7 +15,8 @@ export default class SearchResultsByPrice extends React.Component {
     }
 
     componentDidMount(){
-        const {startPrice, stopPrice} = this.state;
+        let {startPrice, stopPrice} = this.state;
+        if (stopPrice === "0") stopPrice = 1
 
         let url = SERVER_URL + '/api/ads/search?start=' + startPrice +
             '&stop=' + stopPrice;
@@ -37,21 +38,23 @@ export default class SearchResultsByPrice extends React.Component {
 
     render() {
         const { carsList } = this.state
-        return (
-            <div>
-                <Grid container spacing={2}>
-                    {carsList.map(function (item) {
-                        return <Grid item xs={12} sm={4}><MediaCard
-                            carID={item.id}
-                            price={item.price}
-                            carMark={item.carMark.carMark}
-                            pictureDto={item.pictureList[0]}
-                            userName={item.account.email}
-                            description={item.description}
-                        /></Grid>
-                    })}
-                </Grid>
-            </div>
-        );
+        if (typeof(carsList) !== 'undefined') {
+            return (
+                <div>
+                    <Grid container spacing={2}>
+                        {carsList.map(function (item) {
+                            return <Grid item xs={12} sm={4}><MediaCard
+                                carID={item.id}
+                                price={item.price}
+                                carMark={item.carMark.carMark}
+                                pictureDto={item.pictureList[0]}
+                                userName={item.account.email}
+                                description={item.description}
+                            /></Grid>
+                        })}
+                    </Grid>
+                </div>
+            );
+        }
     }
 }

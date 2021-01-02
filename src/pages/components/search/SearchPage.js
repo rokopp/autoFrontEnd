@@ -130,8 +130,10 @@ export default class SearchPage extends React.Component {
                                                    margin="normal" variant="outlined" />
                                     )}
                                 />
-                                <TextField name="minPrice" onChange={this.handlePriceAndCarMark} label="Min Hind" margin="normal" variant="outlined" />
-                                <TextField name="maxPrice" onChange={this.handlePriceAndCarMark} label="Max Hind" margin="normal" variant="outlined"/>
+                                <TextField name="minPrice" onChange={this.handlePriceAndCarMark} label="Min Hind"
+                                           margin="normal" variant="outlined" />
+                                <TextField name="maxPrice" onChange={this.handlePriceAndCarMark} label="Max Hind"
+                                           margin="normal" variant="outlined"/>
                             </div>
                         </DialogContent>
                         <DialogActions>

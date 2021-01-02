@@ -58,12 +58,11 @@ export default function Navbar(props) {
             <ScrollToColor>
                 <AppBar position="fixed" color="transparent" elevation={0}>
                     <Toolbar>
-                        <PullDownDrawer/>
+                        <PullDownDrawer isAdmin={props.isAdmin}/>
                         <Typography className={classes.title} variant="h6" noWrap>
                             <IconButton to="/" component={Link}>RIP-OFF Auto24</IconButton>
                         </Typography>
                         <div>
-                            {/*<LoginPage/>*/}
                             {!props.loggedIn ? <Link to={{pathname: "/login"}}>
                                 <h2>Logi sisse</h2>
                             </Link> : <Link onClick={handleLogOut}>

@@ -5,7 +5,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import { List, ListItem, ListItemText, Divider, IconButton, Drawer} from '@material-ui/core';
 import {useStyles} from './NavbarUseStyles';
 
-export default function PullDownDrawer() {
+export default function PullDownDrawer(props) {
     const classes = useStyles();
     const [state, setState] = React.useState({
         top: false,
@@ -18,18 +18,39 @@ export default function PullDownDrawer() {
 
         setState({ ...state, [anchor]: open });
     };
+    let navbarLinks = [];
+    if (props.isAdmin) {
+        navbarLinks = [
+            {
+                name: "Registreeri",
+                link: "registreeri"
+            },
+            {
+                name: "Registreeri Admin",
+                link: "admin/registreeri"
+            },
+            {
+                name: "Loo kuulutus",
+                link: "uus"
+            },
+            {
+                name: "Loo automark",
+                link: "admin/carMarks"
+            },
+        ];
+    } else {
 
-    const navbarLinks = [
-        {
-            name: "Registreeri",
-            link: "registreeri"
-        },
-        {
-            name: "Loo kuulutus",
-            link: "uus"
-        }
-    ];
-
+        navbarLinks = [
+            {
+                name: "Registreeri",
+                link: "registreeri"
+            },
+            {
+                name: "Loo kuulutus",
+                link: "uus"
+            }
+        ];
+    }
     const list = (anchor) => (
         <div
             className={clsx(classes.list, {
@@ -40,7 +61,7 @@ export default function PullDownDrawer() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {navbarLinks.map((text, index) => (
+                {navbarLinks.map((text) => (
                     <ListItem button component={Link} to={"/" + text.link} key={text.name}>
                         <ListItemText primary={text.name} />
                     </ListItem>

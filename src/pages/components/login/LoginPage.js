@@ -45,16 +45,28 @@ export default class LoginPage extends React.Component {
 
     storeUser(url, username) {
         if (url.includes("admin")) {
-
             this.setState({
                 loggedIn: true
             })
             const loginData = JSON.stringify({
                 userName: username,
                 loggedIn: true,
+                isAdmin: true
             },)
             this._storeData(loginData)
         }
+        if (url.includes("user")) {
+            this.setState({
+                loggedIn: true
+            })
+            const loginData = JSON.stringify({
+                userName: username,
+                loggedIn: true,
+                isAdmin: false
+            },)
+            this._storeData(loginData)
+        }
+        console.log(this.state.isAdmin)
     }
 
     handleSubmit = (event) => {
@@ -65,6 +77,7 @@ export default class LoginPage extends React.Component {
             fetch(this.form.action, {
                 method: this.form.method,
                 body: new URLSearchParams(data),
+                credentials: 'same-origin'
             })
                 .then(v => {
                     this.storeUser(v.url, data.get("username"));

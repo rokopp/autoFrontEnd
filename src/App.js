@@ -7,6 +7,8 @@ import {Grid} from "@material-ui/core";
 import Routing from "./Routing";
 import AsyncStorage from '@react-native-community/async-storage';
 import {SERVER_URL} from "./config";
+import LoadingOverlay from 'react-loading-overlay';
+
 
 const inputs = [{
     name: "username",
@@ -39,36 +41,8 @@ export default class App extends React.Component {
 
         this.state = {
             loggedIn: false,
+            isAdmin: false
         }
-
-    }
-
-
-    checkLogInStatus(username, password) {
-        const bodyData = JSON.stringify({
-            userName: username,
-            password: password,
-        },)
-        fetch(SERVER_URL + "/api/login", {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: bodyData,
-            withCredentials: true
-        })
-            .then(res => res.text())
-            .then(response => {
-                console.log(response)
-                if (response === 'success') {
-                    this.setState({
-                        loggedIn: true
-                    })
-                }
-            })
-            .catch(error => console.log("check login error", error))
 
     }
 
@@ -79,12 +53,12 @@ export default class App extends React.Component {
                 // We have data!!
                 const username = JSON.parse(value).userName;
                 const loggedIn = JSON.parse(value).loggedIn;
-
+                const isAdmin = JSON.parse(value).isAdmin;
                 this.setState({
                     userName: username,
-                    loggedIn: loggedIn
+                    loggedIn: loggedIn,
+                    isAdmin: isAdmin
                 })
-                //this.checkLogInStatus(username, password);
             }
         } catch (error) {
             // Error retrieving data
@@ -97,11 +71,14 @@ export default class App extends React.Component {
     }
 
     render() {
+
+        const {isAdmin, loggedIn} = this.state;
+        console.log(isAdmin)
         return (
             <div>
                 <Grid container direction={"column"}>
                     <Grid item>
-                        <Navbar  />
+                        <Navbar isAdmin={isAdmin} loggedIn={loggedIn}/>
                     </Grid>
 
                     <Grid item>
@@ -112,7 +89,14 @@ export default class App extends React.Component {
                     <Grid item container style={{paddingTop: "10%"}}>
                         <Grid item xs={0} sm={2}/>
                         <Grid item xs={12} sm={8}>
-                            <Routing {...props} error={params.get('error')} />
+                            {/*<LoadingOverlay*/}
+                            {/*    active={!isAdmin}*/}
+                            {/*    spinner*/}
+                            {/*    fadeSpeed={200}*/}
+                            {/*    text='Loading your content...'*/}
+                            {/*>*/}
+                                <Routing {...props} error={params.get('error')} isAdmin={isAdmin} />
+                            {/*</LoadingOverlay>*/}
                         </Grid>
                         <Grid item xs={0} sm={2}/>
                     </Grid>
