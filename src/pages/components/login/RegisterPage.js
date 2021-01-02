@@ -26,7 +26,7 @@ export class RegisterPage extends React.Component {
     handleSubmit(event) {
         const {username, password, email, phoneNumber} = this.state;
         event.preventDefault();
-        fetch(SERVER_URL + '/register', {
+        fetch(SERVER_URL + '/api/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
