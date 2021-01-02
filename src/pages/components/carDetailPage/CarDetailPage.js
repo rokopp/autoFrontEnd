@@ -26,7 +26,6 @@ export class CarDetailPage extends React.Component {
     render() {
         const { carsList } = this.state;
         const checkID = this.props.match.params.carID;
-        console.log(carsList)
         return (
             <div>
                 {carsList

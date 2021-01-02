@@ -11,7 +11,7 @@ export default class SaveAds extends React.Component {
         this.state = {
             userName: "",
             password: "",
-            uploadFile: null,
+            uploadFile: [],
             ad: {
                 carMark: {
                     id: "",
@@ -61,15 +61,10 @@ export default class SaveAds extends React.Component {
             const value = await AsyncStorage.getItem('userData');
             if (value !== null) {
                 // We have data!!
-                console.log(JSON.parse(value))
-
                 const username = JSON.parse(value).userName;
-                const password = JSON.parse(value).password;
-
                 this.setState({
                     loggedIn: true,
-                    userName: username,
-                    password: password
+                    userName: username
                 });
 
             }
@@ -80,7 +75,7 @@ export default class SaveAds extends React.Component {
     };
 
     handleSubmit(event) {
-        const {username, password, uploadFile, ad} = this.state;
+        const {userName, password, uploadFile, ad} = this.state;
         event.preventDefault();
         const data = new FormData()
         data.append('picture', uploadFile);
@@ -95,18 +90,15 @@ export default class SaveAds extends React.Component {
         })], {
             type: "application/json"
         }));
-        // data.append("principal", new Blob([JSON.stringify({
-        //     "username": "aaa"
-        // })], {
-        //     type: "application/json"
-        // }));
-        fetch(SERVER_URL + '/api/ads' + '?principal', {
+        data.append("username", userName);
+        fetch(SERVER_URL + '/api/ads', {
             method: 'POST',
             body: data
         })
             .then((response) => response.text())
             .then((responseData) => {
-                if (responseData.status !== 200) {
+                if (responseData.status !== 200 || responseData.status !== 400
+                    || responseData.status !== 500) {
                     alert("There was an error!");
                 } else {
                     alert("Request successful");
@@ -115,7 +107,6 @@ export default class SaveAds extends React.Component {
             .catch((error) => {
                 console.error(error);
             });
-        console.log("Login " + window.btoa(username + ":" + password))
     }
 
     getCarMarks() {
@@ -159,7 +150,6 @@ export default class SaveAds extends React.Component {
         this.getCarMarks();
     }
 
-
     render() {
         const { carMarkList } = this.state
 
@@ -182,15 +172,12 @@ export default class SaveAds extends React.Component {
                                             {this.state.userName}
                                         </Grid>
                                         <Grid item>
-                                            <TextField
-                                                type="file"
-                                                name="file"
-                                                placeholder="Lisa pildid"
+                                            <input
+                                                accept="image/*"
                                                 value={this.state.file}
                                                 onChange={this.uploadFileChange}
-                                                fullWidth
-                                                variant="outlined"
-                                                autoFocus
+                                                multiple
+                                                type="file"
                                             />
                                         </Grid>
 

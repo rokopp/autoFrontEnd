@@ -13,17 +13,8 @@ const boxStyle = {
 }
 export class CarDetailCard extends Component {
 
-    // readFileToImg(file) {
-    //     const sm = Object.entries(file).map(
-    //         ([key, value]) => ({ [key]: value })
-    //     );
-    //     console.log(sm[0][0].pictureFile)
-    //     const data1 = sm[0][0].pictureFile
-    //     return "data:image/png;base64," + data1;
-    // }
     render() {
         const { userName, price, description, pictureDto, carMark, carModel, serialNr} = this.props;
-        console.log(pictureDto)
         return (
             <div>
                 <Grid container spacing={3} justify="center" alignItems="center">

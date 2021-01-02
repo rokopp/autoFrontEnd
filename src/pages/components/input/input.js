@@ -19,7 +19,6 @@ class Input extends Component {
     render () {
         const {handleError, ...opts} = this.props
         this.handleError = handleError
-        console.log(handleError)
         return (
             <input {...opts} value={this.state.value}
                    onChange={this.handleChange} className={this.state.className} />

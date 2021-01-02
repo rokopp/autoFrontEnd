@@ -49,7 +49,7 @@ export default class App extends React.Component {
             userName: username,
             password: password,
         },)
-        fetch("http://13.53.200.72:8080/api/login", {
+        fetch(SERVER_URL + "/api/login", {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -78,11 +78,10 @@ export default class App extends React.Component {
             if (value !== null) {
                 // We have data!!
                 const username = JSON.parse(value).userName;
-                const password = JSON.parse(value).password;
                 const loggedIn = JSON.parse(value).loggedIn;
 
-                console.log("User " + username + " password " + password + " logStat " + loggedIn)
                 this.setState({
+                    userName: username,
                     loggedIn: loggedIn
                 })
                 //this.checkLogInStatus(username, password);

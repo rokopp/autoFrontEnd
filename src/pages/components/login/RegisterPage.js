@@ -1,5 +1,6 @@
 import React from 'react';
 import {Grid, TextField, Button} from "@material-ui/core";
+import {SERVER_URL} from "../../../config";
 
 export class RegisterPage extends React.Component {
     constructor(props) {
@@ -25,7 +26,7 @@ export class RegisterPage extends React.Component {
     handleSubmit(event) {
         const {username, password, email, phoneNumber} = this.state;
         event.preventDefault();
-        fetch('http://13.53.200.72:8080/register', {
+        fetch(SERVER_URL + '/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -42,7 +43,6 @@ export class RegisterPage extends React.Component {
 
             .then((response) => response.text())
             .then((responseData) => {
-                console.log("RESULTS HERE:", responseData);
                 if (responseData === 'success') {
                     this.setState({loggedIn: true});
                 } else {

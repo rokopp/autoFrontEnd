@@ -43,16 +43,14 @@ export default class LoginPage extends React.Component {
         })
     }
 
-    storeUser(url) {
+    storeUser(url, username) {
         if (url.includes("admin")) {
-            const {username, password} = this.state;
 
             this.setState({
                 loggedIn: true
             })
             const loginData = JSON.stringify({
                 userName: username,
-                password: password,
                 loggedIn: true,
             },)
             this._storeData(loginData)
@@ -66,10 +64,10 @@ export default class LoginPage extends React.Component {
             const data = new FormData(this.form)
             fetch(this.form.action, {
                 method: this.form.method,
-                body: new URLSearchParams(data)
+                body: new URLSearchParams(data),
             })
                 .then(v => {
-                    this.storeUser(v.url);
+                    this.storeUser(v.url, data.get("username"));
                     if(v.redirected) window.location = v.url
                 })
                 .catch(e => console.warn(e))
@@ -136,7 +134,6 @@ export default class LoginPage extends React.Component {
             )
         }
         const errors = this.renderError()
-        console.log(this.state.loggedIn)
         return (
             <div>
                 {!this.state.loggedIn ?

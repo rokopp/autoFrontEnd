@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import DialogActions from "@material-ui/core/DialogActions";
 import IconButton from "@material-ui/core/IconButton";
 import {Link} from "react-router-dom";
+import {SERVER_URL} from "../../../config";
 
 
 export default class SearchPage extends React.Component {
@@ -21,7 +22,8 @@ export default class SearchPage extends React.Component {
             maxPrice: 0,
             minPrice: 0,
             carMarkId: 0,
-            carMark: ""
+            carMark: "",
+            carMarkList: []
         }
         this.handleClickOpen = this.handleClickOpen.bind(this)
         this.handleClose = this.handleClose.bind(this)
@@ -62,7 +64,8 @@ export default class SearchPage extends React.Component {
     }
 
     componentDidMount(){
-        fetch('http://13.53.200.72:8080/api/ads',
+        this.getCarMarks();
+        fetch(SERVER_URL + '/api/ads',
             {
                 method: 'GET',
                 mode: 'cors',
@@ -76,8 +79,26 @@ export default class SearchPage extends React.Component {
             });
     }
 
+    getCarMarks() {
+        fetch(SERVER_URL + '/api/carMarks', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+            .then((response) => response.text())
+            .then((responseData) => {
+                this.setState({
+                    carMarkList: JSON.parse(responseData)
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
     render() {
-        const { carsList, setOpen, minPrice, maxPrice, carMarkId, carMark } = this.state
+        const { carMarkList, setOpen, minPrice, maxPrice, carMarkId, carMark } = this.state
         let urlPrice = '/otsing/hind/' + minPrice + '/' + maxPrice;
         let urlCarMark = '/otsing/mark/' + carMarkId + '/' + carMark;
 
@@ -101,8 +122,8 @@ export default class SearchPage extends React.Component {
                                         )
                                         this.getCarMarkId(value)
                                     }}
-                                    options={carsList.map(function (item) {
-                                        return item.carMark.carMark
+                                    options={carMarkList.map(function (item) {
+                                        return item.carMark
                                     })}
                                     renderInput={(params) => (
                                         <TextField {...params} label="Auto mark"

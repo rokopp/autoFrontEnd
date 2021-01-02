@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid} from "@material-ui/core";
 import MediaCard from "../cards/MediaCards";
+import {SERVER_URL} from "../../../config";
 
 export default class SearchResultsByCarMark extends React.Component {
     constructor() {
@@ -13,7 +14,7 @@ export default class SearchResultsByCarMark extends React.Component {
 
         let carMark = this.props.match.params.carMark;
         let carMarkId = this.props.match.params.carMarkId;
-        fetch('http://13.53.200.72:8080/api/ads/search',
+        fetch(SERVER_URL + '/api/ads/search',
             {
                 method: 'POST',
                 mode: 'cors',
@@ -27,14 +28,11 @@ export default class SearchResultsByCarMark extends React.Component {
             })
             .then(res => res.json())
             .then(response => {
-                console.log(response)
                 this.setState({carsList: response})
             })
             .catch(error => {
                 console.log(error)
             });
-        console.log(this.props.match.params.carMark)
-        console.log(this.props.match.params.carMarkId)
     }
 
 

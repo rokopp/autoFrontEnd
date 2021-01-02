@@ -1,6 +1,7 @@
 import React from 'react';
 import MediaCard from "../cards/MediaCards";
 import {Grid} from "@material-ui/core";
+import {SERVER_URL} from "../../../config";
 
 export default class SearchResultsByPrice extends React.Component {
     constructor(props) {
@@ -16,23 +17,20 @@ export default class SearchResultsByPrice extends React.Component {
     componentDidMount(){
         const {startPrice, stopPrice} = this.state;
 
-        let url = 'http://13.53.200.72:8080/api/ads/search?start=' + startPrice +
+        let url = SERVER_URL + '/api/ads/search?start=' + startPrice +
             '&stop=' + stopPrice;
 
-        console.log(url);
         fetch(url,
             {
                 method: 'GET',
             })
             .then(res => res.json())
             .then(response => {
-                console.log(response)
                 this.setState({carsList: response})
             })
             .catch(error => {
                 console.log(error)
             });
-        console.log(this.props.match.params.startPrice)
     }
 
 
@@ -42,7 +40,7 @@ export default class SearchResultsByPrice extends React.Component {
         return (
             <div>
                 <Grid container spacing={2}>
-                    {carsList.map(function (item, index) {
+                    {carsList.map(function (item) {
                         return <Grid item xs={12} sm={4}><MediaCard
                             carID={item.id}
                             price={item.price}
