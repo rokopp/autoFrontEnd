@@ -95,12 +95,12 @@ export default class SaveAds extends React.Component {
         })], {
             type: "application/json"
         }));
-        data.append("principal", new Blob([JSON.stringify({
-            "username": "aaa"
-        })], {
-            type: "application/json"
-        }));
-        fetch(SERVER_URL + '/api/ads', {
+        // data.append("principal", new Blob([JSON.stringify({
+        //     "username": "aaa"
+        // })], {
+        //     type: "application/json"
+        // }));
+        fetch(SERVER_URL + '/api/ads' + '?principal', {
             method: 'POST',
             body: data
         })
