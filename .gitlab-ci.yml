@@ -11,6 +11,8 @@ build auto24-frontend:
   tags:
     - auto24-frontend
   script:
+    - npm cache clean --force
+    - rm -rf node_modules package-lock.json
     - npm install
     - npm run build
     - mkdir -p ~/front-deployment
