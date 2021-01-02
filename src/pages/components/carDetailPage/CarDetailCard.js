@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Grid, Typography, Divider, Box} from "@material-ui/core";
+import {Box, Divider, Grid, Typography} from "@material-ui/core";
 
 const boxStyle = {
     border: 1,
@@ -15,7 +15,6 @@ export class CarDetailCard extends Component {
 
     render() {
         const { userName, price, description, pictureDto, carMark, carModel, serialNr} = this.props;
-
         return (
             <div>
                 <Grid container spacing={3} justify="center" alignItems="center">
@@ -44,7 +43,7 @@ export class CarDetailCard extends Component {
                     <Grid item xs={12} sm={6}>
                         <Box>
                             <Box {...boxStyle} borderRight={0}>
-                            <img alt="" width="100%" height="100%" src={pictureDto}/>
+                            <img alt="" width="100%" height="100%" src={(pictureDto)}/>
                             </Box>
                         </Box>
                     </Grid>

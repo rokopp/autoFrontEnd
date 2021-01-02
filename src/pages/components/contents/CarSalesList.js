@@ -1,6 +1,7 @@
 import React from 'react';
 import {Grid} from "@material-ui/core";
 import MediaCard from "../cards/MediaCards";
+import {SERVER_URL} from "../../../config";
 
 export default class CarSalesList extends React.Component {
     constructor(props) {
@@ -9,11 +10,11 @@ export default class CarSalesList extends React.Component {
             carsList: []
         }
     }
+
     componentDidMount(){
-        fetch('http://13.53.200.72:8080/api/ads',
+        fetch(SERVER_URL + '/api/ads',
             {
                 method: 'GET',
-                mode: 'cors',
             })
             .then(res => res.json())
             .then(response => {
@@ -28,16 +29,21 @@ export default class CarSalesList extends React.Component {
     render() {
 
         const { carsList } = this.state;
-
         return (
 
             <Grid container spacing={2}>
-                    {carsList.map(function (item, index) {
+                    {carsList.map(function (item) {
+                        function readFileToImg(file) {
+                            if (file !== null && typeof(file) !== 'undefined') {
+                                return "data:image/png;base64," + file.pictureFile;
+                            }
+                        }
+
                         return <Grid item xs={12} sm={4}><MediaCard
                             carID={item.id}
                             price={item.price}
                             carMark={item.carMark.carMark}
-                            pictureDto={item.pictureList[0]}
+                            pictureDto={readFileToImg(item.pictureList[0])}
                             userName={item.account.email}
                             description={item.description}
                         /></Grid>

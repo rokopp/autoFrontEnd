@@ -6,6 +6,33 @@ import StickyFooter from "./pages/components/footer/StickyFooter";
 import {Grid} from "@material-ui/core";
 import Routing from "./Routing";
 import AsyncStorage from '@react-native-community/async-storage';
+import {SERVER_URL} from "./config";
+import LoadingOverlay from 'react-loading-overlay';
+
+
+const inputs = [{
+    name: "username",
+    placeholder: "Kasutajanimi",
+    type: "text",
+},{
+    name: "password",
+    placeholder: "Parool",
+    type: "password",
+},{
+    type: "submit",
+    value: "Logi sisse",
+    color: "primary",
+    className: "button-block"
+}]
+
+const props = {
+    name: 'loginForm',
+    method: 'POST',
+    action: SERVER_URL + '/perform_login',
+    inputs: inputs
+}
+
+const params = new URLSearchParams(window.location.search)
 
 export default class App extends React.Component {
 
@@ -14,36 +41,8 @@ export default class App extends React.Component {
 
         this.state = {
             loggedIn: false,
+            isAdmin: false
         }
-
-    }
-
-
-    checkLogInStatus(username, password) {
-        const bodyData = JSON.stringify({
-            userName: username,
-            password: password,
-        },)
-        fetch("http://13.53.200.72:8080/api/login", {
-            method: 'POST',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: bodyData,
-            withCredentials: true
-        })
-            .then(res => res.text())
-            .then(response => {
-                console.log(response)
-                if (response === 'success') {
-                    this.setState({
-                        loggedIn: true
-                    })
-                }
-            })
-            .catch(error => console.log("check login error", error))
 
     }
 
@@ -53,8 +52,13 @@ export default class App extends React.Component {
             if (value !== null) {
                 // We have data!!
                 const username = JSON.parse(value).userName;
-                const password = JSON.parse(value).password;
-                this.checkLogInStatus(username, password);
+                const loggedIn = JSON.parse(value).loggedIn;
+                const isAdmin = JSON.parse(value).isAdmin;
+                this.setState({
+                    userName: username,
+                    loggedIn: loggedIn,
+                    isAdmin: isAdmin
+                })
             }
         } catch (error) {
             // Error retrieving data
@@ -64,15 +68,17 @@ export default class App extends React.Component {
 
     componentDidMount() {
         this._retrieveData();
-        // document.title = 'App';
     }
 
     render() {
+
+        const {isAdmin, loggedIn} = this.state;
+        console.log(isAdmin)
         return (
             <div>
                 <Grid container direction={"column"}>
                     <Grid item>
-                        <Navbar/>
+                        <Navbar isAdmin={isAdmin} loggedIn={loggedIn}/>
                     </Grid>
 
                     <Grid item>
@@ -83,7 +89,14 @@ export default class App extends React.Component {
                     <Grid item container style={{paddingTop: "10%"}}>
                         <Grid item xs={0} sm={2}/>
                         <Grid item xs={12} sm={8}>
-                            <Routing/>
+                            {/*<LoadingOverlay*/}
+                            {/*    active={!isAdmin}*/}
+                            {/*    spinner*/}
+                            {/*    fadeSpeed={200}*/}
+                            {/*    text='Loading your content...'*/}
+                            {/*>*/}
+                                <Routing {...props} error={params.get('error')} isAdmin={isAdmin} />
+                            {/*</LoadingOverlay>*/}
                         </Grid>
                         <Grid item xs={0} sm={2}/>
                     </Grid>
