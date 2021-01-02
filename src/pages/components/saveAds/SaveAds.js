@@ -2,6 +2,8 @@ import React from 'react';
 import {Grid, TextField, Button} from "@material-ui/core";
 import AsyncStorage from "@react-native-community/async-storage";
 import LoginPage from "../login/LoginPage";
+import {SERVER_URL} from "../../../config";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 export default class SaveAds extends React.Component {
     constructor() {
@@ -12,12 +14,14 @@ export default class SaveAds extends React.Component {
             uploadFile: null,
             ad: {
                 carMark: {
+                    id: "",
                     carMark: ""
                 },
                 description: "",
                 price: 0,
                 carSerialNr: ""
             },
+            carMarkList: []
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -78,25 +82,35 @@ export default class SaveAds extends React.Component {
     handleSubmit(event) {
         const {username, password, uploadFile, ad} = this.state;
         event.preventDefault();
-
         const data = new FormData()
-        data.append('file', uploadFile);
-        fetch('http://localhost:8080/api/ads?carSerialNr=' + ad.carSerialNr + '&price='
-            + ad.price + '&description=' + ad.description + '&carMark=' + 1, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': 'Basic ' + window.btoa(username + ":" + password)
+        data.append('picture', uploadFile);
+        data.append("ad", new Blob([JSON.stringify({
+            "carMark": {
+                "id": ad.carMark.id,
+                "carMark": ad.carMark.carMark
             },
-            body: JSON.stringify({
-                data
-            })
+            "description": ad.description,
+            "price": ad.price,
+            "carSerialNr": ad.carSerialNr
+        })], {
+            type: "application/json"
+        }));
+        data.append("principal", new Blob([JSON.stringify({
+            "username": "aaa"
+        })], {
+            type: "application/json"
+        }));
+        fetch(SERVER_URL + '/api/ads', {
+            method: 'POST',
+            body: data
         })
-
             .then((response) => response.text())
             .then((responseData) => {
-                console.log("RESULTS HERE:", responseData);
+                if (responseData.status !== 200) {
+                    alert("There was an error!");
+                } else {
+                    alert("Request successful");
+                }
             })
             .catch((error) => {
                 console.error(error);
@@ -104,12 +118,51 @@ export default class SaveAds extends React.Component {
         console.log("Login " + window.btoa(username + ":" + password))
     }
 
+    getCarMarks() {
+        fetch(SERVER_URL + '/api/carMarks', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+            .then((response) => response.text())
+            .then((responseData) => {
+                this.setState({
+                    carMarkList: JSON.parse(responseData)
+                })
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+    getCarMarkId(carMark) {
+        let carMarkIdSetter = 0;
+        let carMarkSetter = "";
+        this.state.carMarkList.forEach( (item) => {
+            if (item.carMark === carMark) {
+                carMarkIdSetter = item.id;
+                carMarkSetter = item.carMark
+            }
+        })
+        this.setState({
+            ad: {
+                carMark: {
+                    id: carMarkIdSetter,
+                    carMark: carMarkSetter
+                }
+            }
+        })
+    }
+
     componentDidMount() {
         this._retrieveData();
+        this.getCarMarks();
     }
 
 
     render() {
+        const { carMarkList } = this.state
+
         return (
             <div>
                 {this.state.loggedIn ? <Grid container spacing={0} justify="center" direction="row">
@@ -122,6 +175,7 @@ export default class SaveAds extends React.Component {
                             className="login-form"
                         >
                             <Grid item>
+                                <h4>Kasutaja: </h4><h3>{this.state.userName}</h3>
                                 <form onSubmit={this.handleSubmit}>
                                     <Grid container direction="column" spacing={2}>
                                         <Grid item>
@@ -141,18 +195,25 @@ export default class SaveAds extends React.Component {
                                         </Grid>
 
                                         <Grid item>
-                                            <TextField
-                                                type="text"
-                                                placeholder="Auto mark"
-                                                fullWidth
-                                                name="carMark"
-                                                variant="outlined"
-                                                onChange={this.handleCarMarkChange}
-                                                value={this.state.carMark}
-                                                inputProps={{ maxLength: 12 }}
-                                                required
-                                                autoFocus
+                                            <Autocomplete
+                                                freeSolo
+                                                onChange={(event, value) => {
+                                                    this.setState(
+                                                        {
+                                                            carMark: value
+                                                        }
+                                                    )
+                                                    this.getCarMarkId(value)
+                                                }}
+                                                options={carMarkList.map(function (item) {
+                                                    return item.carMark
+                                                })}
+                                                renderInput={(params) => (
+                                                    <TextField {...params} label="Auto mark"
+                                                               margin="normal" variant="outlined" />
+                                                )}
                                             />
+
                                         </Grid>
                                         <Grid item>
                                             <TextField

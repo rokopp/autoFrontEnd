@@ -126,12 +126,15 @@ export default class LoginPage extends React.Component {
     }
 
     render() {
-        const inputs = this.props.inputs.map(
-            ({name, placeholder, type, value, className}, index) => (
-                <LoginInput key={index} name={name} placeholder={placeholder} type={type} value={value}
-                       className={type==='submit'? className : ''} />
+        let inputs = ""
+        if (typeof(this.props.inputs) !== 'undefined') {
+            inputs = this.props.inputs.map(
+                ({name, placeholder, type, value, className}, index) => (
+                    <LoginInput key={index} name={name} placeholder={placeholder} type={type} value={value}
+                                className={type === 'submit' ? className : ''}/>
+                )
             )
-        )
+        }
         const errors = this.renderError()
         console.log(this.state.loggedIn)
         return (
