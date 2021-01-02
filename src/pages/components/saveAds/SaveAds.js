@@ -1,7 +1,6 @@
 import React from 'react';
 import {Grid, TextField, Button} from "@material-ui/core";
 import AsyncStorage from "@react-native-community/async-storage";
-import LoginPage from "../login/LoginPage";
 import {SERVER_URL} from "../../../config";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import {Link} from "react-router-dom";
@@ -11,7 +10,6 @@ export default class SaveAds extends React.Component {
         super();
         this.state = {
             userName: "",
-            password: "",
             uploadFile: [],
             ad: {
                 carMark: {
@@ -69,7 +67,7 @@ export default class SaveAds extends React.Component {
     };
 
     handleSubmit(event) {
-        const {userName, password, uploadFile, ad} = this.state;
+        const {userName, uploadFile, ad} = this.state;
         event.preventDefault();
         const data = new FormData()
         data.append('picture', uploadFile);

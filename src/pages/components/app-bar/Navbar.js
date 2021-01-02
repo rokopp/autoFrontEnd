@@ -14,7 +14,6 @@ import ScrollToColor from "./ScrollToColor";
 import { Link } from "react-router-dom";
 import {useStyles} from "./NavbarUseStyles"
 import SearchPage from "../search/SearchPage";
-import LoginPage from "../login/LoginPage";
 import AsyncStorage from "@react-native-community/async-storage";
 
 function HideOnScroll(props) {

@@ -105,7 +105,7 @@ export default class AddCarMarks extends Component {
         } else {
             return (
                 <div>
-                    <h2></h2>
+                    <h2>Admini õigused puuduvad</h2>
                 </div>
             )
         }

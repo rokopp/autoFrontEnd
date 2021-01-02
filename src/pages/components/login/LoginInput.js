@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {Grid, Typography, TextField, Button} from "@material-ui/core";
+import {Grid, TextField} from "@material-ui/core";
 
 
 class LoginInput extends Component {
