@@ -3,7 +3,6 @@ import React from 'react';
 import AsyncStorage  from "@react-native-community/async-storage";
 import IconButton from "@material-ui/core/IconButton";
 import PropTypes from 'prop-types';
-import LoginInput from "./LoginInput";
 import {SERVER_URL} from "../../../config";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -36,7 +35,7 @@ export default class LoginPage extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const { token, username, password } = this.state;
+        const { username, password } = this.state;
         fetch(SERVER_URL + '/api/login?username=' + username + "&password=" + password, {
             method: 'GET'
         })
