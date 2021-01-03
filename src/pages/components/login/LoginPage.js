@@ -4,6 +4,12 @@ import AsyncStorage  from "@react-native-community/async-storage";
 import IconButton from "@material-ui/core/IconButton";
 import PropTypes from 'prop-types';
 import LoginInput from "./LoginInput";
+import {SERVER_URL} from "../../../config";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import DialogContent from "@material-ui/core/DialogContent";
+import Typography from "@material-ui/core/Typography";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
@@ -12,29 +18,14 @@ export default class LoginPage extends React.Component {
             username: "",
             password: "",
             loggedIn: false,
+            token: "",
+            error: false,
+            isAdmin: false
         };
-        if(props.error) {
-            this.state = {
-                failure: 'Vale kasutajanimi/parool',
-                errcount: 0,
-            }
-        } else {
-            this.state = {
-                errcount: 0,
-            }
-        }
 
         this.handleLogOut = this.handleLogOut.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    renderError = () => {
-        if(this.state.errcount || this.state.failure) {
-            const errmsg = this.state.failure
-                || Object.values(this.state.errmsgs).find(v=>v)
-            return <div className="error">{errmsg}</div>
-        }
     }
 
     handleChange(event) {
@@ -43,48 +34,42 @@ export default class LoginPage extends React.Component {
         })
     }
 
-    storeUser(url, username) {
-        if (url.includes("admin")) {
-            this.setState({
-                loggedIn: true
-            })
-            const loginData = JSON.stringify({
-                userName: username,
-                loggedIn: true,
-                isAdmin: true
-            },)
-            this._storeData(loginData)
-        }
-        if (url.includes("user")) {
-            this.setState({
-                loggedIn: true
-            })
-            const loginData = JSON.stringify({
-                userName: username,
-                loggedIn: true,
-                isAdmin: false
-            },)
-            this._storeData(loginData)
-        }
-        console.log(this.state.isAdmin)
-    }
-
     handleSubmit = (event) => {
         event.preventDefault();
-
-        if(!this.state.errcount) {
-            const data = new FormData(this.form)
-            fetch(this.form.action, {
-                method: this.form.method,
-                body: new URLSearchParams(data),
-                credentials: 'same-origin'
+        const { token, username, password } = this.state;
+        fetch(SERVER_URL + '/api/login?username=' + username + "&password=" + password, {
+            method: 'GET'
+        })
+            .then((response) => response.text())
+            .then((responseData) => {
+                if (responseData.length > 0) {
+                    const myObject = JSON.parse(responseData);
+                    let isAdmin = false
+                    if (myObject.role.includes("ADMIN")) {
+                        isAdmin = true;
+                    }
+                    this.setState({
+                        token: myObject.token,
+                        loggedIn: true,
+                        isAdmin: isAdmin
+                    })
+                    const loginData = JSON.stringify({
+                        userName: username,
+                        loggedIn: true,
+                        token: myObject.token,
+                        isAdmin: isAdmin
+                    },)
+                    this._storeData(loginData)
+                } else {
+                    this.setState({
+                        error: true,
+                        loggedIn: false
+                    })
+                }
             })
-                .then(v => {
-                    this.storeUser(v.url, data.get("username"));
-                    if(v.redirected) window.location = v.url
-                })
-                .catch(e => console.warn(e))
-        }
+            .catch((error) => {
+                console.error(error);
+            });
     }
 
     _retrieveData = async () => {
@@ -92,8 +77,12 @@ export default class LoginPage extends React.Component {
             const value = await AsyncStorage.getItem('userData');
             if (value !== null) {
                 // We have data!!
+                const username = JSON.parse(value).userName;
+                const token = JSON.parse(value).token;
 
                 this.setState({
+                    username: username,
+                    token: token,
                     loggedIn: true
                 });
 
@@ -114,6 +103,7 @@ export default class LoginPage extends React.Component {
                 'userData',
                 user
             );
+            console.log(user)
         } catch (error) {
             // Error saving data
             console.log("Something went wrong", error);
@@ -137,26 +127,71 @@ export default class LoginPage extends React.Component {
     }
 
     render() {
-        let inputs = ""
-        if (typeof(this.props.inputs) !== 'undefined') {
-            inputs = this.props.inputs.map(
-                ({name, placeholder, type, value, className}, index) => (
-                    <LoginInput key={index} name={name} placeholder={placeholder} type={type} value={value}
-                                className={type === 'submit' ? className : ''}/>
-                )
-            )
-        }
-        const errors = this.renderError()
         return (
             <div>
-                <h2>Admin kasutaja: aaa</h2>
-                <h2>parool: aaa</h2>
-                {!this.state.loggedIn ?
-                    <form {...this.props} onSubmit={this.handleSubmit} ref={fm => {this.form=fm}} >
-                        {inputs}
-                        {errors}
-                    </form> :
-                    <IconButton color="inherit" onClick={this.handleLogOut}> Logi välja </IconButton>}
+                {!this.state.loggedIn ? <DialogContent>
+                        <Grid item>
+                            <Grid
+                                container
+                                direction="column"
+                                justify="center"
+                                spacing={2}
+                                className="login-form"
+                            >
+                                <Grid item>
+                                    <Typography component="h1" variant="h5">
+                                        Logi sisse
+                                    </Typography>
+                                </Grid>
+                                <Grid item>
+                                    <form onSubmit={this.handleSubmit}>
+                                        <Grid container direction="column" spacing={2}>
+                                            <Grid item>
+                                                <TextField
+                                                    type="text"
+                                                    placeholder="Username"
+                                                    fullWidth
+                                                    name="username"
+                                                    variant="outlined"
+                                                    value={this.state.username}
+                                                    onChange={this.handleChange}
+                                                    helperText={this.state.error ? 'Error' : ''}
+                                                    error={this.state.error}
+                                                    required
+                                                    autoFocus
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <TextField
+                                                    type="password"
+                                                    placeholder="Password"
+                                                    fullWidth
+                                                    name="password"
+                                                    variant="outlined"
+                                                    value={this.state.password}
+                                                    onChange={this.handleChange}
+                                                    helperText={this.state.error ? 'Error' : ''}
+                                                    error={this.state.error}
+                                                    required
+                                                />
+                                            </Grid>
+                                            <Grid item>
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    type="submit"
+                                                    className="button-block"
+                                                >
+                                                    Logi sisse
+                                                </Button>
+                                            </Grid>
+                                        </Grid>
+                                    </form>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </DialogContent>
+                    : <IconButton color="inherit" onClick={this.handleLogOut}> Logi välja </IconButton>}
 
             </div>
         );

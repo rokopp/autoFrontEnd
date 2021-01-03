@@ -12,26 +12,23 @@ import AddCarMarks from "./pages/components/carMarks/AddCarMarks"
 
 export default class Routing extends React.Component {
     render() {
-        const { error, isAdmin } = this.props
+        const { error, isAdmin, token } = this.props
         return (
             <Switch>
                 <Route path="/" component={CarSalesList} exact />
                 <Route path="/registreeri" component={RegisterPage} />
                 <Route path="/carAds/:carID" component={CarDetailPage} />
                 <Route path="/uus" render={() => (
-                    <SaveAds isAdmin={isAdmin} />
+                    <SaveAds isAdmin={isAdmin} token={token} />
                 )}/>
                 <Route path="/otsing/hind/:startPrice/:stopPrice" component={SearchResultsByPrice} />
                 <Route path="/otsing/mark/:carMarkId/:carMark" component={SearchResultsByCarMark} />
                 <Route path="/admin/registreeri" render={() => (
-                    <AdminRegisterPage isAdmin={isAdmin} />
+                    <AdminRegisterPage isAdmin={isAdmin} token={token}/>
                 )}/>
                 <Route path="/admin/carMarks" render={() => (
-                    <AddCarMarks isAdmin={isAdmin} />
+                    <AddCarMarks isAdmin={isAdmin} token={token}/>
                 )}/>
-                <Route path="/user">
-                    <Redirect to="/"/>
-                </Route>
                 <Route exact path="/login" render={() => (
                     <LoginPage {...this.props} error={error} />
                 )}/>

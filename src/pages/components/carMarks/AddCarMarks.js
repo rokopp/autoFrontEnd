@@ -20,12 +20,14 @@ export default class AddCarMarks extends Component {
     handleSubmit(event) {
         const {carMark} = this.state
         event.preventDefault();
+        const { token } = this.props
 
-        fetch(SERVER_URL + '/api/carMarks', {
+        fetch(SERVER_URL + '/api/admin/carMarks', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': token
             },
             body: JSON.stringify({
                 carMark: carMark.carMark

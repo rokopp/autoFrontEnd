@@ -25,13 +25,14 @@ export class AdminRegisterPage extends React.Component {
 
     handleSubmit(event) {
         const {username, password, email, phoneNumber} = this.state;
+        const { token } = this.props;
         event.preventDefault();
-        fetch(SERVER_URL + '/api/registerAdmin', {
+        fetch(SERVER_URL + '/api/admin/registerAdmin', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                // 'Authorization': 'Basic' + "$2a$10$tq..FDKdH4nVCPQVX9Y0tuBd08IparVCBQgRo12khuclEjPegTpCG",
+                'Authorization': token
             },
             body: JSON.stringify({
                 userName: username,
@@ -157,4 +158,4 @@ export class AdminRegisterPage extends React.Component {
             </div>
         );
     };
-};
+}

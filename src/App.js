@@ -40,7 +40,8 @@ export default class App extends React.Component {
 
         this.state = {
             loggedIn: false,
-            isAdmin: false
+            isAdmin: false,
+            token: ""
         }
 
     }
@@ -53,9 +54,12 @@ export default class App extends React.Component {
                 const username = JSON.parse(value).userName;
                 const loggedIn = JSON.parse(value).loggedIn;
                 const isAdmin = JSON.parse(value).isAdmin;
+                const token = JSON.parse(value).token;
+
                 this.setState({
                     userName: username,
                     loggedIn: loggedIn,
+                    token: token,
                     isAdmin: isAdmin
                 })
             }
@@ -71,7 +75,7 @@ export default class App extends React.Component {
 
     render() {
 
-        const {isAdmin, loggedIn} = this.state;
+        const {isAdmin, loggedIn, token} = this.state;
         return (
             <div>
                 <Grid container direction={"column"}>
@@ -87,7 +91,7 @@ export default class App extends React.Component {
                     <Grid item container style={{paddingTop: "10%"}}>
                         <Grid item xs={0} sm={2}/>
                         <Grid item xs={12} sm={8}>
-                            <Routing {...props} error={params.get('error')} isAdmin={isAdmin}/>
+                            <Routing {...props} error={params.get('error')} isAdmin={isAdmin} token={token}/>
                         </Grid>
                         <Grid item xs={0} sm={2}/>
                     </Grid>

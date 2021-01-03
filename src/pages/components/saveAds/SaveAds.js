@@ -68,6 +68,7 @@ export default class SaveAds extends React.Component {
 
     handleSubmit(event) {
         const {userName, uploadFile, ad} = this.state;
+        const { token } = this.props
         event.preventDefault();
         const data = new FormData()
         data.append('picture', uploadFile);
@@ -83,8 +84,11 @@ export default class SaveAds extends React.Component {
             type: "application/json"
         }));
         data.append("username", userName);
-        fetch(SERVER_URL + '/api/ads', {
+        fetch(SERVER_URL + '/api/user/ads', {
             method: 'POST',
+            headers: {
+                'Authorization': token
+            },
             body: data
         })
             .then((response) => response.text())
