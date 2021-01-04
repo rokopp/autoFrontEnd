@@ -9,8 +9,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import DialogContent from "@material-ui/core/DialogContent";
 import Typography from "@material-ui/core/Typography";
-import {Redirect} from "react-router";
-import {Link} from "react-router-dom";
 
 export default class LoginPage extends React.Component {
     constructor(props) {
