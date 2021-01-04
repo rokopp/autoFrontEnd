@@ -106,6 +106,7 @@ export default class LoginPage extends React.Component {
             // Error saving data
             console.log("Something went wrong", error);
         }
+        window.location.reload()
     };
 
     handleLogOut() {
