@@ -9,7 +9,6 @@ import SearchResultsByCarMark from "./pages/components/search/SearchResultsByCar
 import LoginPage from "./pages/components/login/LoginPage";
 import {AdminRegisterPage} from "./pages/components/login/AdminRegisterPage";
 import AddCarMarks from "./pages/components/carMarks/AddCarMarks"
-import AdminPage from "./pages/components/profile/AdminPage";
 
 export default class Routing extends React.Component {
     render() {
@@ -18,9 +17,6 @@ export default class Routing extends React.Component {
             <Switch>
                 <Route path="/" component={CarSalesList} exact />
                 <Route path="/registreeri" component={RegisterPage} />
-                <Route path="/admin" render={() => (
-                    <AdminPage isAdmin={isAdmin} token={token} />
-                )}/>
                 <Route path="/carAds" search={"id=:carID"} render={() => (
                     <CarDetailPage isAdmin={isAdmin} token={token} />
                 )}/>
