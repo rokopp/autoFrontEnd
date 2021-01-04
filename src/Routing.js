@@ -17,7 +17,9 @@ export default class Routing extends React.Component {
             <Switch>
                 <Route path="/" component={CarSalesList} exact />
                 <Route path="/registreeri" component={RegisterPage} />
-                <Route path="/carAds/:carID" component={CarDetailPage} />
+                <Route path="/carAds" search={"id=:carID"} render={() => (
+                    <CarDetailPage isAdmin={isAdmin} token={token} />
+                )}/>
                 <Route path="/uus" render={() => (
                     <SaveAds isAdmin={isAdmin} token={token} />
                 )}/>

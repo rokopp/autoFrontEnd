@@ -50,7 +50,7 @@ const MediaCard = (props) => {
             </CardContent>
             <CardActions>
                 <Button component={Link} to={"/buyNow"} size="small">Osta</Button>
-                <Button component={Link} to={"/carAds/" + carID} size="small">Uuri lähemalt</Button>
+                <Button component={Link} to={"/carAds?id=" + carID} size="small">Uuri lähemalt</Button>
             </CardActions>
         </Card>
     );

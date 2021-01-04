@@ -21,7 +21,7 @@ export default class AddCarMarks extends Component {
         const {carMark} = this.state
         event.preventDefault();
         const { token } = this.props
-
+        console.log(token)
         fetch(SERVER_URL + '/api/admin/carMarks', {
             method: 'POST',
             headers: {

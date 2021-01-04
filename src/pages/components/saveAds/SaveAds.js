@@ -95,9 +95,9 @@ export default class SaveAds extends React.Component {
             .then((responseData) => {
                 if (responseData.status !== 200 || responseData.status !== 400
                     || responseData.status !== 500) {
-                    alert("There was an error!");
+                    alert("Kuulutuse laetud");
                 } else {
-                    alert("Request successful");
+                    alert("There was an error!");
                 }
             })
             .catch((error) => {

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Box, Divider, Grid, Typography} from "@material-ui/core";
+import {SERVER_URL} from "../../../config";
+import IconButton from "@material-ui/core/IconButton";
 
 const boxStyle = {
     border: 1,
@@ -12,9 +14,35 @@ const boxStyle = {
     },
 }
 export class CarDetailCard extends Component {
+    constructor(props) {
+        super(props);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
 
+    handleDelete(event) {
+        const { carID, token } = this.props
+        console.log(token)
+
+        fetch(SERVER_URL + '/api/admin/ads/' + carID, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': token
+            }
+        })
+            .then((response) => response.text())
+            .then((responseData) => {
+                if (responseData === "Deleted ad: " + carID) {
+                    alert("Kustutatud kuulutus");
+                } else {
+                    alert("Midagi läks viltu");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
     render() {
-        const { userName, price, description, pictureDto, carMark, carModel, serialNr} = this.props;
+        const { isAdmin, userName, price, description, pictureDto, carMark, carModel, serialNr} = this.props;
         return (
             <div>
                 <Grid container spacing={3} justify="center" alignItems="center">
@@ -47,6 +75,14 @@ export class CarDetailCard extends Component {
                             </Box>
                         </Box>
                     </Grid>
+                    {isAdmin ?
+                        <Grid>
+                            <IconButton onClick={this.handleDelete}>
+                                Kustuta kuulutus
+                            </IconButton>
+                        </Grid> :
+                        <br/>
+                    }
                 </Grid>
             </div>
         );

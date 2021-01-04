@@ -25,7 +25,9 @@ export class CarDetailPage extends React.Component {
     }
     render() {
         const { carsList } = this.state;
-        const checkID = this.props.match.params.carID;
+        const { token, isAdmin } = this.props
+        const url = new URLSearchParams(window.location.search)
+        const checkID = url.get("id");
         return (
             <div>
                 {carsList
@@ -40,6 +42,8 @@ export class CarDetailPage extends React.Component {
                                 serialNr={item.serialNr}
                                 description={item.description}
                                 userName={item.account.email}
+                                token={token}
+                                isAdmin={isAdmin}
                             />
                         </Grid>;
                     }
