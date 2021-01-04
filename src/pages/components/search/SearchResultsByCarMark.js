@@ -47,7 +47,7 @@ export default class SearchResultsByCarMark extends React.Component {
                             carID={item.id}
                             price={item.price}
                             carMark={item.carMark.carMark}
-                            pictureDto={item.pictureList[0]}
+                            pictureDto={"data:image/png;base64," + item.pictureList[0].pictureFile}
                             userName={item.account.email}
                             description={item.description}
                         /></Grid>
