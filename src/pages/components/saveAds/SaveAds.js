@@ -165,9 +165,6 @@ export default class SaveAds extends React.Component {
                                 <form onSubmit={this.handleSubmit}>
                                     <Grid container direction="column" spacing={2}>
                                         <Grid item>
-                                            {this.state.userName}
-                                        </Grid>
-                                        <Grid item>
                                             <input
                                                 accept="image/png"
                                                 value={this.state.file}

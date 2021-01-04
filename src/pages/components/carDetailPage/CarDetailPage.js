@@ -33,12 +33,16 @@ export class CarDetailPage extends React.Component {
                 {carsList
                     .map(function (item) {
                     if (item.id.toString() === checkID) {
+                        let carImg = item.pictureList[0].pictureFile;
+                        if (carImg === null) {
+                            carImg = "";
+                        }
                         return <Grid item xs={22} sm={14}>
                             <CarDetailCard
                                 carID={item.id}
                                 price={item.price}
                                 carMark={item.carMark.carMark}
-                                pictureDto={"data:image/png;base64," + item.pictureList[0].pictureFile}
+                                pictureDto={"data:image/png;base64," + carImg}
                                 serialNr={item.serialNr}
                                 description={item.description}
                                 userName={item.account.email}

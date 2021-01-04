@@ -43,9 +43,10 @@ export class RegisterPage extends React.Component {
 
             .then((response) => response.text())
             .then((responseData) => {
-                if (responseData === 'success') {
+                if (responseData === "Registered") {
                     this.setState({loggedIn: true});
                 } else {
+                    alert(responseData)
                     this.setState({
                         error: true
                     })
