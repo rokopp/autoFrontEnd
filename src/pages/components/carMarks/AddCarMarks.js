@@ -35,12 +35,10 @@ export default class AddCarMarks extends Component {
 
             .then((response) => response.text())
             .then((responseData) => {
-                if (responseData === 'success') {
-                    this.setState({loggedIn: true});
+                if (responseData === 'Successfully added') {
+                    alert("Auto mark lisatud")
                 } else {
-                    this.setState({
-                        error: true
-                    })
+                    alert(responseData)
                 }
             })
             .catch((error) => {
