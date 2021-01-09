@@ -45,6 +45,7 @@ export default class SearchPage extends React.Component {
             if (item.carMark.carMark === carMark) {
                 carMarkIdSetter = item.carMark.id;
             }
+
         })
         this.setState({
             carMarkId: carMarkIdSetter
@@ -68,7 +69,6 @@ export default class SearchPage extends React.Component {
         fetch(SERVER_URL + '/api/ads',
             {
                 method: 'GET',
-                mode: 'cors',
             })
             .then(res => res.json())
             .then(response => {

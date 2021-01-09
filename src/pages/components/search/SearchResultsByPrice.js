@@ -7,15 +7,22 @@ export default class SearchResultsByPrice extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            startPrice: this.props.match.params.startPrice,
-            stopPrice: this.props.match.params.stopPrice,
             carsList: [],
             url: ''
         }
     }
 
-    componentDidMount(){
-        let {startPrice, stopPrice} = this.state;
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.match.params.startPrice !== this.props.match.params.startPrice ||
+            prevProps.match.params.stopPrice !== this.props.match.params.stopPrice) {
+            this.getSearchResults();
+        }
+    }
+
+    getSearchResults() {
+        let startPrice = this.props.match.params.startPrice;
+        let stopPrice = this.props.match.params.stopPrice;
+
         if (stopPrice === "0") stopPrice = 1
 
         let url = SERVER_URL + '/api/ads/search?start=' + startPrice +
@@ -34,11 +41,14 @@ export default class SearchResultsByPrice extends React.Component {
             });
     }
 
+    componentDidMount() {
+        this.getSearchResults();
+    }
 
 
     render() {
-        const { carsList } = this.state
-        if (typeof(carsList) !== 'undefined') {
+        const {carsList} = this.state
+        if (typeof (carsList) !== 'undefined' && carsList.length !== 0) {
             return (
                 <div>
                     <Grid container spacing={2}>
@@ -55,6 +65,16 @@ export default class SearchResultsByPrice extends React.Component {
                     </Grid>
                 </div>
             );
+        } else {
+            return (
+                <div>
+                    <Grid>
+                        <h3>
+                            Otsing tulemusi ei andnud
+                        </h3>
+                    </Grid>
+                </div>
+            )
         }
     }
 }

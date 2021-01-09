@@ -33,9 +33,11 @@ export class CarDetailPage extends React.Component {
                 {carsList
                     .map(function (item) {
                     if (item.id.toString() === checkID) {
-                        let carImg = item.pictureList[0].pictureFile;
-                        if (carImg === null) {
+                        let carImg;
+                        if (item.pictureList.length === 0) {
                             carImg = "";
+                        } else {
+                            carImg = item.pictureList[0].pictureFile;
                         }
                         return <Grid item xs={22} sm={14}>
                             <CarDetailCard

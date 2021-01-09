@@ -171,6 +171,7 @@ export default class SaveAds extends React.Component {
                                                 onChange={this.uploadFileChange}
                                                 multiple
                                                 type="file"
+                                                required
                                             />
                                         </Grid>
 

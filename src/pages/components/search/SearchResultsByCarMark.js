@@ -7,17 +7,22 @@ export default class SearchResultsByCarMark extends React.Component {
     constructor() {
         super();
         this.state = {
-            carsList: []
+            carsList: [],
+            isFound: true
         }
     }
     componentDidMount(){
 
         let carMark = this.props.match.params.carMark;
         let carMarkId = this.props.match.params.carMarkId;
+        if (carMarkId === "0") {
+            this.setState({
+                isFound: false
+            })
+        }
         fetch(SERVER_URL + '/api/ads/search',
             {
                 method: 'POST',
-                mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -38,21 +43,32 @@ export default class SearchResultsByCarMark extends React.Component {
 
 
     render() {
-        const { carsList } = this.state
+        const { carsList, isFound } = this.state
+        let carMarkProps = this.props.match.params.carMark;
+        console.log(carMarkProps)
+
         return (
             <div>
-                <Grid container spacing={2}>
-                    {carsList.map(function (item, index) {
-                        return <Grid item xs={12} sm={4}><MediaCard
-                            carID={item.id}
-                            price={item.price}
-                            carMark={item.carMark.carMark}
-                            pictureDto={"data:image/png;base64," + item.pictureList[0].pictureFile}
-                            userName={item.account.email}
-                            description={item.description}
-                        /></Grid>
-                    })}
-                </Grid>
+                {isFound ?
+                    <Grid container spacing={2}>
+                        {carsList.map(function (item, index) {
+                            return <Grid item xs={12} sm={4}><MediaCard
+                                carID={item.id}
+                                price={item.price}
+                                carMark={item.carMark.carMark}
+                                pictureDto={"data:image/png;base64," + item.pictureList[0].pictureFile}
+                                userName={item.account.email}
+                                description={item.description}
+                            /></Grid>
+                        })}
+                    </Grid>
+                    :
+                    <Grid>
+                        <h2>
+                            Ei leitud antud automarki {carMarkProps}
+                        </h2>
+                    </Grid>
+                }
             </div>
         );
     }
