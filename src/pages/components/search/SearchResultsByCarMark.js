@@ -11,13 +11,24 @@ export default class SearchResultsByCarMark extends React.Component {
             isFound: true
         }
     }
-    componentDidMount(){
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.match.params.carMark !== this.props.match.params.carMark ||
+            prevProps.match.params.carMarkId !== this.props.match.params.carMarkId) {
+            this.getSearchResults();
+        }
+    }
+
+    getSearchResults() {
         let carMark = this.props.match.params.carMark;
         let carMarkId = this.props.match.params.carMarkId;
         if (carMarkId === "0") {
             this.setState({
                 isFound: false
+            })
+        } else {
+            this.setState({
+                isFound: true
             })
         }
         fetch(SERVER_URL + '/api/ads/search',
@@ -40,10 +51,12 @@ export default class SearchResultsByCarMark extends React.Component {
             });
     }
 
-
+    componentDidMount() {
+        this.getSearchResults();
+    }
 
     render() {
-        const { carsList, isFound } = this.state
+        const {carsList, isFound} = this.state
         let carMarkProps = this.props.match.params.carMark;
         console.log(carMarkProps)
 
