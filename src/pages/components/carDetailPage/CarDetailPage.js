@@ -34,7 +34,7 @@ export class CarDetailPage extends React.Component {
                     .map(function (item) {
                     if (item.id.toString() === checkID) {
                         let carImg;
-                        if (item.pictureList.length === 0 || item.pictureList === null) {
+                        if (item.pictureList.length === 0 || item.pictureList[0] === null) {
                             carImg = "";
                         } else {
                             carImg = item.pictureList[0].pictureFile;
