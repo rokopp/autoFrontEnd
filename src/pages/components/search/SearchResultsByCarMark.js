@@ -65,11 +65,17 @@ export default class SearchResultsByCarMark extends React.Component {
                 {isFound ?
                     <Grid container spacing={2}>
                         {carsList.map(function (item, index) {
+                            let carImg;
+                            if (item.pictureList.length === 0 || item.pictureList[0].picturFile === null) {
+                                carImg = "";
+                            } else {
+                                carImg = item.pictureList[0].pictureFile;
+                            }
                             return <Grid item xs={12} sm={4}><MediaCard
                                 carID={item.id}
                                 price={item.price}
                                 carMark={item.carMark.carMark}
-                                pictureDto={"data:image/png;base64," + item.pictureList[0].pictureFile}
+                                pictureDto={"data:image/png;base64," + carImg}
                                 userName={item.account.email}
                                 description={item.description}
                             /></Grid>
